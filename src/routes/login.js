@@ -42,8 +42,7 @@ router.post('/login',(req,res)=>{
     // console.log('Datos leidos correctamente');
 });
 
-router.post('/check',(req,res)=>{
-    
+router.post('/check',(req,res)=>{ 
     jwt.verify(req.body.token,clavesecreta, (error,authData)=>{
         if(error){
             res.send('error-parse'); //acceso prohibido
@@ -54,8 +53,8 @@ router.post('/check',(req,res)=>{
             })
         }
     })
-
 });
+
 //funcion para almacenar el token
 function verificarToken(req,res,next) {
     if(typeof bearerHeader !== 'undefined'){ //si es diferente de undefined significa diferente de vacio
