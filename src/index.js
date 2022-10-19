@@ -21,8 +21,11 @@ app.get('/',(req,res)=>{
 app.use('/seguridad',require("./routes/registro"));
 app.use('/seguridad',require("./routes/login"));
 
+
+app.use('/personas',require("./routes/personas"));
 //añadir las rutas
 app.use(require("./routes/periodo"));
+
 
 
 
