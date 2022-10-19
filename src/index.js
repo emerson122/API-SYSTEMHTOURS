@@ -1,6 +1,4 @@
 const express = require('express');
-
-
 const app = express();
 const bodyparser = require('body-parser');
 
@@ -22,7 +20,8 @@ app.get('/',(req,res)=>{
 //rutas mertodo1
 app.use('/seguridad',require("./routes/registro"));
 app.use('/seguridad',require("./routes/login"));
-//rutas metodo2
+
+//añadir las rutas
 app.use(require("./routes/periodo"));
 
 
