@@ -78,9 +78,9 @@ router.put('/periodo/actualizar/:cod',(req,res)=>{
 
 
 // Delete 
-router.delete('/ventas/borrar/:cod',(req,res)=>{
+router.delete('/periodo/borrar/:cod',(req,res)=>{
     const{cod}= req.params;
-    const sql=`CALL PROC_VENTA('?','?','?','?','?','?','?','?','?','?',3,${cod})`
+    const sql=`CALL PRC_PERIODOS('', '','', '', '', 3, ${cod});`
     mysql.query(sql, error=>{
         if(error) throw error;
         res.send('Los datos fueron borrados correctamente')
