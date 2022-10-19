@@ -75,4 +75,17 @@ router.put('/periodo/actualizar/:cod',(req,res)=>{
     })
     console.log('Datos actualizaron correctamente');
 });
+
+
+// Delete 
+router.delete('/ventas/borrar/:cod',(req,res)=>{
+    const{cod}= req.params;
+    const sql=`CALL PROC_VENTA('?','?','?','?','?','?','?','?','?','?',3,${cod})`
+    mysql.query(sql, error=>{
+        if(error) throw error;
+        res.send('Los datos fueron borrados correctamente')
+    })
+    console.log('Datos borrados correctamente');
+})
+
 module.exports = router;
