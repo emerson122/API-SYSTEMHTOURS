@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('../db');
 const jwt = require('jsonwebtoken');
 const { json } = require('body-parser');
+const { route } = require('./personas');
 const router = express.Router();
 const dotenv = require('dotenv').config();
 
@@ -55,6 +56,22 @@ router.post('/check',(req,res)=>{
     })
 });
 
+
+router.get('/api/',ensureToken,(req,res)=>{
+
+    jwt.verify(req.token,clavesecreta,(err,data)=>{
+        if(err){
+            res.sendStatus(403);
+        }else{
+            res.json({
+                test: 'protegido papa',
+                data
+            })
+        }
+    })
+   
+})
+
 //funcion para almacenar el token
 function verificarToken(req,res,next) {
     if(typeof bearerHeader !== 'undefined'){ //si es diferente de undefined significa diferente de vacio
@@ -66,6 +83,20 @@ function verificarToken(req,res,next) {
     }
 };
 
+
+//middleware para asegurarse de que el token pertence a htours
+function ensureToken(req,res,next) {
+   const bearerHeader = req.headers['authorization'];
+   console.log(bearerHeader);
+   if(typeof bearerHeader !== 'undefined'){
+    const bearer = bearerHeader.split(' ');
+    const bearetoken = bearer[1];
+    req.token = bearetoken;
+    next();
+ }else{
+     res.sendStatus(403); //acceso prohibido
+ }
+}
 
 
 module.exports=router;

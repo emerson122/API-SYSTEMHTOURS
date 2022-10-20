@@ -14,7 +14,7 @@ router.get('/',(req,res)=>{
             res.send('No se pudieron Obtener los datos')
         }
     })
-    console.log('Datos Leidos Correctamente');
+    console.log('Datos Leidos Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
 });
 
 
@@ -28,8 +28,8 @@ router.get('/:cod',(req,res)=>{
         }else{
             res.send('No se pudieron Obtener los datos')
         }
-    })
-    console.log('Datos Leidos Correctamente');
+    }) 
+    console.log('Datos Leidos Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
 });
 
 
@@ -58,7 +58,7 @@ router.post('/insertar',(req,res)=>{
         if(error) throw error;
         res.send("Datos insertados")
     })
-    console.log('Datos insertados Correctamente');
+    console.log('Datos insertados Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
 });
 
 
