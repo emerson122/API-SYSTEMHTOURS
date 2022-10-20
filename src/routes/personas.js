@@ -5,7 +5,7 @@ const router = express.Router();
 
 // LEER TODA LA TABLA
 router.get('/',(req,res)=>{
-    const sql = `call PRC_PERSONAS('', '', '', '', '', '', '', '', '', 4, '');`;
+    const sql = `CALL PRC_PERSONAS('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 4, '')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         if (results.length>0) {
@@ -20,7 +20,7 @@ router.get('/',(req,res)=>{
 
 router.get('/:cod',(req,res)=>{
     const {cod} = req.params;
-    const sql = `call PRC_PERSONAS('', '', '', '', '', '', '', '', '', 5, ${cod});`;
+    const sql = `CALL PRC_PERSONAS('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 5, ${cod});`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         if (results.length>0) {
@@ -44,10 +44,16 @@ router.post('/insertar',(req,res)=>{
         IND_CIVIL: req.body.IND_CIVIL,
         IND_PERSONA: req.body.IND_PERSONA,
         TELEFONO: req.body.TELEFONO,
-        TIP_TELEFONO: req.body.TIP_TELEFONO
+        TIP_TELEFONO: req.body.TIP_TELEFONO,
+        CORREO: req.body.CORREO,
+        PREGUNTA: req.body.PREGUNTA,
+        RESPUESTA: req.body.RESPUESTA,
+        USUARIO: req.body.USUARIO,
+        PASSWORD: req.body.PASSWORD,
+        ROL: req.body.ROL
 
     }
-    const sql = `CALL PRC_PERSONAS('${objpersonas.NOM_PERSONA}', '${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}','${objpersonas.IND_PERSONA}',${objpersonas.TELEFONO},'${objpersonas.TIP_TELEFONO}',1, '?')`;
+    const sql = `CALL PRC_PERSONAS('${objpersonas.NOM_PERSONA}', '${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}','${objpersonas.IND_PERSONA}',${objpersonas.TELEFONO},'${objpersonas.TIP_TELEFONO}','${objpersonas.CORREO}','${objpersonas.PREGUNTA}','${objpersonas.RESPUESTA}','${objpersonas.USUARIO}','${objpersonas.PASSWORD}',${objpersonas.ROL},1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
