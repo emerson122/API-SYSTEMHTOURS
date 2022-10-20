@@ -22,7 +22,6 @@ function ensureToken(req,res,next) {
  const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 // LEER TODA LA TABLA
 router.get('/periodo',ensureToken,(req,res)=>{
-    
     jwt.verify(req.token,clavesecreta,(err,data)=>{
         if(err){
             res.sendStatus(403);
@@ -36,10 +35,9 @@ router.get('/periodo',ensureToken,(req,res)=>{
                     res.send('No se pudieron Obtener los datos')
                 }
             });
-            console.log('Datos Leidos Correctamente');
         }
     })
-  
+    console.log('Datos Leidos Correctamente');
 });
 
 

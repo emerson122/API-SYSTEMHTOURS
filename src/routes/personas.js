@@ -1,6 +1,25 @@
 const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
+
+
+//MIDDLEWARE
+//middleware para asegurarse de que el token pertence a htours
+function ensureToken(req,res,next) {
+    const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
+    if(typeof bearerHeader !== 'undefined'){
+     const bearer = bearerHeader.split(' ');
+     const bearetoken = bearer[1];
+     req.token = bearetoken;
+     next();
+  }else{
+      res.sendStatus(403); //acceso prohibido
+  }
+ }
+ const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 
 
 // LEER TODA LA TABLA
@@ -34,7 +53,11 @@ router.get('/:cod',(req,res)=>{
 
 
 // INSERTAR 
-router.post('/insertar',(req,res)=>{
+router.post('/insertar',ensureToken,(req,res)=>{
+    jwt.verify(req.token,clavesecreta,(err,data)=>{
+        if(err){
+            res.sendStatus(403);
+        }else{
     const objpersonas = {
         NOM_PERSONA: req.body.NOM_PERSONA,
         SEX_PERSONA: req.body.SEX_PERSONA,
@@ -58,6 +81,8 @@ router.post('/insertar',(req,res)=>{
         if(error) throw error;
         res.send("Datos insertados")
     })
+}
+})
     console.log('Datos insertados Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
 });
 
