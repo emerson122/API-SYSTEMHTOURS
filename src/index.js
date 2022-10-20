@@ -14,7 +14,7 @@ app.use(bodyparser.json());
 
 //inicio
 app.get('/',(req,res)=>{
-    res.send('<html><body><center><b>Bienvenidos sean a la API de Htours</B></center></body></html>')
+    res.send('<h1>h1 API Htour</h1>')
 });
 
 //rutas mertodo1
