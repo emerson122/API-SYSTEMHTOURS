@@ -12,7 +12,7 @@ router.post('/login',(req,res)=>{
         usuario: req.body.user,
         passwd : req.body.pass,
     }
-    const sql = `Call SEL_USUARIOS(${objlogin.usuario},${objlogin.passwd})`;
+    const sql = `Call SEL_USERANDPASS('${objlogin.usuario}','${objlogin.passwd}')`;
     mysql.query(sql, (error,results)=>{
     if(error) throw error;
 
