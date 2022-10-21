@@ -2,9 +2,12 @@ const express = require('express');
 const mysql = require('../db');
 const jwt = require('jsonwebtoken');
 const { json } = require('body-parser');
-const { route } = require('./personas');
+
 const router = express.Router();
-const dotenv = require('dotenv').config();
+const {config} = require('dotenv').config();
+
+
+
 
 const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 // insertar 
@@ -57,6 +60,8 @@ router.post('/check',(req,res)=>{
 });
 
 
+
+//ruta protegida
 router.get('/api/',ensureToken,(req,res)=>{
 
     jwt.verify(req.token,clavesecreta,(err,data)=>{
@@ -70,7 +75,14 @@ router.get('/api/',ensureToken,(req,res)=>{
         }
     })
    
-})
+});
+
+
+
+//Refrescar Token
+
+
+
 
 //funcion para almacenar el token
 function verificarToken(req,res,next) {
