@@ -60,4 +60,21 @@ router.delete('/usuario/borrar/:cod',(req,res)=>{
     console.log('Datos borrados correctamente');
 });
 
+
+router.post('/recuperar',(req,res)=>{
+    const objtrecuperacion ={
+        usuario: req.body.user
+    }
+    const sql = `CALL SEL_USERANDEMAIL('${objtrecuperacion.usuario}')`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        if(results.length>0){
+            res.json(results[0]);
+        }else{
+            res.send('No se pudo obtener resultados')
+        }
+    });  
+    console.log('Datos leidos correctamente');
+})
+
 module.exports=router;

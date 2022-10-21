@@ -77,8 +77,6 @@ router.get('/api/',ensureToken,(req,res)=>{
    
 });
 
-
-
 //Refrescar Token
 
 
