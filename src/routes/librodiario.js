@@ -16,7 +16,7 @@ router.get(["/librodiario"],(req, res)=>{
     console.log('Datos leidos correctamente');
 });
 
-//BUSCAR POR ID//FUNCINAL
+//BUSCAR POR ID//FUNCIONAL
 router.get('/librodiario/:cod',(req,res)=>{
     const {cod} = req.params;
     const sql = `CALL PRC_LIBDIARIO('?','?', '?', '?', '?', '?', 6, ${cod})`
