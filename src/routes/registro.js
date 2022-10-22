@@ -75,6 +75,42 @@ router.post('/recuperar',(req,res)=>{
         }
     });  
     console.log('Datos leidos correctamente');
-})
+});
 
+
+router.post('/preguntas',(req,res)=>{
+    const objpreguntas ={
+        usuario: req.body.user,
+        pregunta: req.body.preg,
+        respuesta: req.body.resp,
+    }
+    const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','${objpreguntas.pregunta}','${objpreguntas.respuesta}','P')`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        if(results.length>0){
+            res.json(results[0]);
+        }else{
+            res.send('No se pudo obtener resultados')
+        }
+    });  
+    console.log('Datos leidos correctamente');
+});
+
+router.post('/respuesta',(req,res)=>{
+    const objpreguntas ={
+        usuario: req.body.user,
+        pregunta: req.body.preg,
+        respuesta: req.body.resp
+    }
+    const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','${objpreguntas.pregunta}','${objpreguntas.respuesta}','R')`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        if(results.length>0){
+            res.json(results[0]);
+        }else{
+            res.send('No se pudo obtener resultados')
+        }
+    });  
+    console.log('Datos leidos correctamente');
+});
 module.exports=router;
