@@ -27,6 +27,7 @@ app.use('/personas',require("./routes/personas"));
 app.use(require("./routes/periodo"));
 
 app.use(require("./routes/librodiario"));
+app.use(require("./routes/libromayor"));
 
 
 
