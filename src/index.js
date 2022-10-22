@@ -26,6 +26,8 @@ app.use('/personas',require("./routes/personas"));
 //añadir las rutas
 app.use(require("./routes/periodo"));
 
+app.use(require("./routes/librodiario"));
+
 
 
 
