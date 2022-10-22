@@ -61,6 +61,7 @@ router.delete('/usuario/borrar/:cod',(req,res)=>{
 });
 
 
+// metodo de recuperacion por correo 
 router.post('/recuperar',(req,res)=>{
     const objtrecuperacion ={
         usuario: req.body.user
@@ -78,6 +79,7 @@ router.post('/recuperar',(req,res)=>{
 });
 
 
+// metodo de recuperacion por pregunta 
 router.post('/preguntas',(req,res)=>{
     const objpreguntas ={
         usuario: req.body.user,
@@ -96,6 +98,7 @@ router.post('/preguntas',(req,res)=>{
     console.log('Datos leidos correctamente');
 });
 
+// metodo de recuperacion por respuesta 
 router.post('/respuesta',(req,res)=>{
     const objpreguntas ={
         usuario: req.body.user,
