@@ -57,6 +57,19 @@ router.post('/librodiario/insertar',(req,res)=>{
     console.log('Datos insertados correctamente');
 });
 
+// ELIMINAR FUNCIONAL
+router.delete('/librodiario/eliminar/:cod',(req,res)=>{
+    const {cod} = req.params;
+    const sql = `CALL DEL_LIBDIARIO( ${cod})`
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.send("Datos Eliminados")
+        
+    })
+   
+    console.log('Datos Eliminados Correctamente');
+});
+
 
 
 

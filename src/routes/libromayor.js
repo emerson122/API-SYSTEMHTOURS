@@ -57,6 +57,19 @@ router.post('/libromayor/insertar',(req,res)=>{
     console.log('Datos insertados Correctamente');
 });
 
+// ELIMINAR FUNCIONAL 
+router.delete('/libromayor/eliminar/:cod',(req,res)=>{
+    const {cod} = req.params;
+    const sql = `CALL PRC_LIBROS_MAYORES('?', '?', '?', '?', 3, ${cod})`
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.send("Datos Eliminados")
+        
+    })
+   
+    console.log('Datos Eliminados Correctamente');
+});
+
 
 
 module.exports = router;
