@@ -46,6 +46,20 @@ router.post('/login',(req,res)=>{
     // console.log('Datos leidos correctamente');
 });
 
+
+const recuperar = 's123qwdafafqv124cc142c121212c1c2412421c4c55wf2e1'
+//recuperar acceso
+router.post('/recuperarlogin',(req,res)=>{
+        const metod = 'correo';//de los resultados que me traiga el procedimiento lo meto en una constante
+        jwt.sign({metod: metod },recuperar ,{expiresIn: '30m'}, (err,token)=>{
+            res.json({
+                token: token
+            })
+        })
+    // console.log('Datos leidos correctamente');
+});
+
+//middleware de autenticacion de seguridad
 router.post('/check',(req,res)=>{ 
     jwt.verify(req.body.token,clavesecreta, (error,authData)=>{
         if(error){
@@ -59,7 +73,19 @@ router.post('/check',(req,res)=>{
     })
 });
 
-
+//verificacion de token de correo
+router.post('/correocheck',(req,res)=>{ 
+    jwt.verify(req.body.token,recuperar, (error,authData)=>{
+        if(error){
+            res.send('error-parse'); //acceso prohibido
+        }else{
+            res.json({
+                mensaje: "Autorizado",
+                authData: authData
+            })
+        }
+    })
+});
 
 //ruta protegida
 router.get('/api/',ensureToken,(req,res)=>{
