@@ -32,7 +32,7 @@ router.get('/librodiario/:cod',(req,res)=>{
 });
 
 
-// CALL PRC_LIBDIARIO(1,'bancos', 'EFECTIVO', 2000, 0, 1, 1);
+
 
 
 // insertar// FUNCIONAL
