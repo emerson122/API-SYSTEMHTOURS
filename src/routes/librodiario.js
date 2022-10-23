@@ -35,7 +35,7 @@ router.get('/librodiario/:cod',(req,res)=>{
 // CALL PRC_LIBDIARIO(1,'bancos', 'EFECTIVO', 2000, 0, 1, 1);
 
 
-// insertar//NO FUNCIONAL
+// insertar// FUNCIONAL
 router.post('/librodiario/insertar',(req,res)=>{
     const objlibrodiario ={
 
@@ -44,9 +44,9 @@ router.post('/librodiario/insertar',(req,res)=>{
         NOM_SUBCUENTA : req.body.NOM_SUBCUENTA,
         SAL_DEBE: req.body.SAL_DEBE,
         SAL_HABER: req.body.SAL_HABER,
-  
+   
     }
-    const sql = `CALL PRC_LIBDIARIO(${objlibrodiario.COD_PERIODO},${objlibrodiario.NOM_CUENTA},${objlibrodiario.NOM_SUBCUENTA},${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},1,'?')`
+    const sql = `CALL PRC_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','${objlibrodiario.NOM_SUBCUENTA}',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},1,'?')`
     mysql.query(sql, error=>{
         if(error) throw error;
         res.send('Los datos se insertaron correctamente')
