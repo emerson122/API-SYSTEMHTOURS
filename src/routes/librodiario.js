@@ -4,7 +4,7 @@ const router = express.Router();
 
 // leer //FUNCIONAL
 router.get(["/librodiario"],(req, res)=>{
-    const sql = `Call PRC_LIBDIARIO('?','?','?','?', '?', '?', 5, '');`
+    const sql = `Call PRC_LIBDIARIO('?','?','?', '?', '?', 5, '');`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         if(results.length>0){
@@ -16,10 +16,11 @@ router.get(["/librodiario"],(req, res)=>{
     console.log('Datos leidos correctamente');
 });
 
+
 //BUSCAR POR ID//FUNCIONAL
 router.get('/librodiario/:cod',(req,res)=>{
     const {cod} = req.params;
-    const sql = `CALL PRC_LIBDIARIO('?','?', '?', '?', '?', '?', 6, ${cod})`
+    const sql = `CALL PRC_LIBDIARIO('?', '?', '?', '?', '?', 6, ${cod})`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         if (results.length>0) {
