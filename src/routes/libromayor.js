@@ -36,16 +36,16 @@ router.get('/libromayor/:cod',(req,res)=>{
 
 // INSERTAR  FUNCIONAL
 router.post('/libromayor/insertar',(req,res)=>{
-    const objperiodos = {
+    const objlibromayor = {
       
         COD_PERIODO: req.body.COD_PERIODO,
         NOM_CUENTA: req.body.NOM_CUENTA,
         SAL_DEBE: req.body.SAL_DEBE,
         SAL_HABER: req.body.SAL_HABER,
         
-         
+ 
     }
-    const sql = `CALL PRC_LIBROS_MAYORES(${objperiodos.COD_PERIODO} ,${objperiodos.NOM_CUENTA},${objperiodos.SAL_DEBE},${objperiodos.SAL_HABER}, 6, '?')`;
+    const sql = `CALL PRC_LIBROS_MAYORES(${objlibromayor.COD_PERIODO} ,'${objlibromayor.NOM_CUENTA}',${objlibromayor.SAL_DEBE},${objlibromayor.SAL_HABER}, 6, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
@@ -54,7 +54,7 @@ router.post('/libromayor/insertar',(req,res)=>{
 });
 
 
-// ACTUALIZAR NO FUNCIONAL
+// ACTUALIZAR FUNCIONAL
 router.put('/libromayor/actualizar/:cod',(req,res)=>{
     const {cod} = req.params;
     const objlibromayor ={
@@ -62,12 +62,11 @@ router.put('/libromayor/actualizar/:cod',(req,res)=>{
 
         COD_PERIODO: req.body.COD_PERIODO,
         NOM_CUENTA: req.body.NOM_CUENTA,
-        NOM_SUBCUENTA : req.body.NOM_SUBCUENTA,
         SAL_DEBE: req.body.SAL_DEBE,
         SAL_HABER: req.body.SAL_HABER,
  
     }
-    const sql = `CALL UPD_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','${objlibrodiario.NOM_SUBCUENTA}',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},'?',${cod})`
+    const sql = `CALL PRC_LIBROS_MAYORES(${objlibromayor.COD_PERIODO} ,'${objlibromayor.NOM_CUENTA}',${objlibromayor.SAL_DEBE},${objlibromayor.SAL_HABER},2,${cod})`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos Actualizados")
