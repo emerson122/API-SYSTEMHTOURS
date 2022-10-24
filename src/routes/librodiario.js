@@ -55,7 +55,34 @@ router.post('/librodiario/insertar',(req,res)=>{
     console.log('Datos insertados correctamente');
 });
 
-// ELIMINAR FUNCIONAL
+
+// ACTUALIZAR // FUNCIONAL
+router.put('/librodiario/actualizar/:cod',(req,res)=>{
+    const {cod} = req.params;
+    const objlibrodiario ={
+
+
+        COD_PERIODO: req.body.COD_PERIODO,
+        NOM_CUENTA: req.body.NOM_CUENTA,
+        NOM_SUBCUENTA : req.body.NOM_SUBCUENTA,
+        SAL_DEBE: req.body.SAL_DEBE,
+        SAL_HABER: req.body.SAL_HABER,
+ 
+    }
+    const sql = `CALL UPD_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','${objlibrodiario.NOM_SUBCUENTA}',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},'?',${cod})`
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.send("Datos Actualizados")
+        
+    })
+   
+    console.log('Datos Actualizados Correctamente');
+});
+
+
+
+
+// ELIMINAR  // FUNCIONAL
 router.delete('/librodiario/eliminar/:cod',(req,res)=>{
     const {cod} = req.params;
     const sql = `CALL DEL_LIBDIARIO( ${cod})`
