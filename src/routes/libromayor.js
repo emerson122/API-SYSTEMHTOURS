@@ -32,12 +32,9 @@ router.get('/libromayor/:cod',(req,res)=>{
 });
 
 
-// COD_CUENTA: req.body.COD_CUENTA,
-// COD_CLASIFICAION: req.body.COD_CLASIFICAION,
-// COD_ESTCUENTA: req.body.COD_ESTCUENTA,
-// NUM_CUENTA: req.body.NUM_CUENTA,
 
-// INSERTAR NO FUNCIONAL
+
+// INSERTAR  FUNCIONAL
 router.post('/libromayor/insertar',(req,res)=>{
     const objperiodos = {
       
@@ -46,8 +43,7 @@ router.post('/libromayor/insertar',(req,res)=>{
         SAL_DEBE: req.body.SAL_DEBE,
         SAL_HABER: req.body.SAL_HABER,
         
-        OPERACION: req.body.OPERACION,
-        FILA: req.body.FILA,
+         
     }
     const sql = `CALL PRC_LIBROS_MAYORES(${objperiodos.COD_PERIODO} ,${objperiodos.NOM_CUENTA},${objperiodos.SAL_DEBE},${objperiodos.SAL_HABER}, 6, '?')`;
     mysql.query(sql,(error,results)=>{
@@ -56,6 +52,31 @@ router.post('/libromayor/insertar',(req,res)=>{
     })
     console.log('Datos insertados Correctamente');
 });
+
+
+// ACTUALIZAR NO FUNCIONAL
+router.put('/libromayor/actualizar/:cod',(req,res)=>{
+    const {cod} = req.params;
+    const objlibromayor ={
+
+
+        COD_PERIODO: req.body.COD_PERIODO,
+        NOM_CUENTA: req.body.NOM_CUENTA,
+        NOM_SUBCUENTA : req.body.NOM_SUBCUENTA,
+        SAL_DEBE: req.body.SAL_DEBE,
+        SAL_HABER: req.body.SAL_HABER,
+ 
+    }
+    const sql = `CALL UPD_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','${objlibrodiario.NOM_SUBCUENTA}',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},'?',${cod})`
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.send("Datos Actualizados")
+        
+    })
+   
+    console.log('Datos Actualizados Correctamente');
+});
+
 
 // ELIMINAR FUNCIONAL 
 router.delete('/libromayor/eliminar/:cod',(req,res)=>{
