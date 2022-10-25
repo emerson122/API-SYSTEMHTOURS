@@ -4,12 +4,9 @@ const jwt = require('jsonwebtoken');
 const { json } = require('body-parser');
 
 const router = express.Router();
-const {config} = require('dotenv').config();
+require('dotenv').config();
 
 
-
-
-const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 // insertar 
 router.post('/login',(req,res)=>{
     const objlogin ={
@@ -32,7 +29,7 @@ router.post('/login',(req,res)=>{
         //     expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 *60 * 1000),
         //     httpOnly: true
         // }
-        jwt.sign({user: user },clavesecreta ,{expiresIn: '5m'}, (err,token)=>{
+        jwt.sign({user: user },process.env.JWT ,{expiresIn: '5m'}, (err,token)=>{
             res.json({
                 token: token
             })
@@ -47,11 +44,10 @@ router.post('/login',(req,res)=>{
 });
 
 
-const recuperar = 's123qwdafafqv124cc142c121212c1c2412421c4c55wf2e1'
 //recuperar acceso
 router.post('/recuperarlogin',(req,res)=>{
         const metod = 'correo';//de los resultados que me traiga el procedimiento lo meto en una constante
-        jwt.sign({metod: metod },recuperar ,{expiresIn: '30m'}, (err,token)=>{
+        jwt.sign({metod: metod },process.env.JWT_CORREO ,{expiresIn: process.env.JWT_CORREOTIME}, (err,token)=>{
             res.json({
                 token: token
             })
@@ -75,7 +71,7 @@ router.post('/check',(req,res)=>{
 
 //verificacion de token de correo
 router.post('/correocheck',(req,res)=>{ 
-    jwt.verify(req.body.token,recuperar, (error,authData)=>{
+    jwt.verify(req.body.token,process.env.JWT_CORREO, (error,authData)=>{
         if(error){
             res.send('error-parse'); //acceso prohibido
         }else{
@@ -90,7 +86,7 @@ router.post('/correocheck',(req,res)=>{
 //ruta protegida
 router.get('/api/',ensureToken,(req,res)=>{
 
-    jwt.verify(req.token,clavesecreta,(err,data)=>{
+    jwt.verify(req.token,process.env.JWT,(err,data)=>{
         if(err){
             res.sendStatus(403);
         }else{
