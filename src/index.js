@@ -25,9 +25,11 @@ app.use('/seguridad',require("./routes/login"));
 app.use('/personas',require("./routes/personas"));
 //añadir las rutas
 app.use(require("./routes/periodo"));
-
 app.use(require("./routes/librodiario"));
 app.use(require("./routes/libromayor"));
+app.use(require("./routes/clasificacion"));
+app.use(require("./routes/objeto"));
+app.use(require("./routes/parametro"));
 
 
 
