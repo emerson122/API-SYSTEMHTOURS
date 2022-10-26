@@ -35,8 +35,6 @@ app.get("*", function (req, res) {
 
 app.listen(app.get("port"), () => {
   console.log(
-    `servidor ejecutado en la siguiente direccion http://localhost:${app.get(
-      "port"
-    )}`
+    `servidor ejecutado en la siguiente direccion http://localhost:${app.get("port")}`
   );
 });
