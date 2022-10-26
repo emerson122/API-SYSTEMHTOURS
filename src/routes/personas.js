@@ -43,17 +43,22 @@ router.get('/',(req,res)=>{
 
 
 router.get('/:cod',(req,res)=>{
+  try {
+    
     const {cod} = req.params;
     const sql = `CALL PRC_PERSONAS('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 5, ${cod});`;
     mysql.query(sql,(error,results)=>{
-        if(error) throw error;
-        if (results.length>0) {
-            res.json(results[0]);
-        }else{
+      if(error) throw error;
+      if (results.length>0) {
+        res.json(results[0]);
+      }else{
             res.send('No se pudieron Obtener los datos')
-        }
-    }) 
-    console.log('Datos Leidos Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
+          }
+        }) 
+        console.log('Datos Leidos Correctamente'); //confirmacion en Consola posteriormente se debe eliminar en produccion
+      } catch (error) {
+        res.send(error);
+      }
 });
 
 
