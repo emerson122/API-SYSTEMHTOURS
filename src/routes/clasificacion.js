@@ -60,7 +60,7 @@ router.post("/clasificacion/insertar", (req, res) => {
     COD_CLASIFICACION: req.body.COD_CLASIFICACION,
     NATURALEZA: req.body.NATURALEZA,
   };
-  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, ${objclasificacion.NATURALEZA}, 1, '?')`;
+  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, '${objclasificacion.NATURALEZA}', 1, '?')`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     res.send("Datos insertados");
@@ -75,7 +75,7 @@ router.put("/clasificacion/actualizar/:cod", (req, res) => {
     COD_CLASIFICACION: req.body.COD_CLASIFICACION,
     NATURALEZA: req.body.NATURALEZA,
   };
-  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, ${objclasificacion.NATURALEZA}, 2, ${cod})`;
+  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, '${objclasificacion.NATURALEZA}', 2, ${cod})`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     res.send("Datos Actualizados");
