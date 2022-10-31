@@ -5,7 +5,7 @@ const router = express.Router();
 // leer
 router.get(["/usuarios", "/Leer"], (req, res) => {
   try {
-    const sql = `Call PROC_USUARIOS('', '', '', 4, '');`;
+    const sql = `CALL PROC_MS_USR_SELECCIONAR()`;
     mysql.query(sql, (error, results) => {
       if (error) throw error;
       if (results.length > 0) {
@@ -24,11 +24,13 @@ router.get(["/usuarios", "/Leer"], (req, res) => {
 router.post("/usuarios/registrar", (req, res) => {
   try {
     const objUsuarios = {
-      usuario: req.body.user,
-      name: req.body.nombre,
-      passwd: req.body.pass,
+      usuario: req.body.USER,
+      name: req.body.NOMBRE_USUARIO,
+      rol: req.body.ROL_USUARIO,
+      correo: req.body.CORREO_ELECTRONICO,
+      passwd: req.body.PASS
     };
-    const sql = `Call PROC_USUARIOS(${objUsuarios.usuario},${objUsuarios.name},${objUsuarios.passwd},1,'')`;
+    const sql = `CALL PRC_MS_USR_REGISTRO("${objUsuarios.usuario}","${objUsuarios.name}", ${objUsuarios.rol}, now(), 0, 1, "${objUsuarios.correo}", "${objUsuarios.passwd}")`;
     mysql.query(sql, (error) => {
       if (error) throw error;
       res.send("Los datos se insertaron correctamente");
