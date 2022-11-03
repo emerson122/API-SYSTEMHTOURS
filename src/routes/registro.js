@@ -11,7 +11,7 @@ router.get(["/usuarios", "/Leer"], (req, res) => {
       if (results.length > 0) {
         res.json(results[0]);
       } else {
-        res.send("No se pudo obtener resultados");
+        res.send("No se pudo obtener resultados"); 
       }
     });
     console.log("Datos leidos correctamente");
@@ -31,9 +31,12 @@ router.post("/usuarios/registrar", (req, res) => {
       passwd: req.body.PASS
     };
     const sql = `CALL PRC_MS_USR_REGISTRO("${objUsuarios.usuario}","${objUsuarios.name}", ${objUsuarios.rol}, now(), 0, 1, "${objUsuarios.correo}", "${objUsuarios.passwd}")`;
-    mysql.query(sql, (error) => {
+    mysql.query(sql, (error,results) => {
       if (error) throw error;
-      res.send("Los datos se insertaron correctamente");
+      if(results.length > 0){
+        res.json(results[0])
+      }
+      // res.send("Los datos se insertaron correctamente");
     });
     console.log("Datos insertados correctamente");
   } catch (error) {
