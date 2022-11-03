@@ -17,7 +17,7 @@ conexion.connect((err) => {
       console.log("Conexión Exitosa A la base de datos");
     } else {
       console.log(
-        "Conexión fallida en la base de datos twot \n Error :" + JSON.stringify(err, undefined, 2)
+        "Conexión fallida en la base de datos  \n Error :" + JSON.stringify(err, undefined, 2)
       );
     }
   });

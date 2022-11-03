@@ -1,9 +1,36 @@
 const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
+
+
+//MIDDLEWARE
+//middleware para asegurarse de que el token pertence a htours
+function ensureToken(req,res,next) {
+    const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
+    if(typeof bearerHeader !== 'undefined'){
+     const bearer = bearerHeader.split(' ');
+     const bearetoken = bearer[1];
+     req.token = bearetoken;
+     next();
+  }else{
+      res.sendStatus(403); //acceso prohibido
+  }
+ }
+ const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
+
+
+
+
 
 // leer FUNCIONAL
-router.get(["/libromayor"],(req, res)=>{
+router.get("/libromayor",ensureToken,(req, res)=>{
+    jwt.verify(req.token,clavesecreta,(err,data)=>{
+        if(err){
+            res.sendStatus(403);
+        }else{
     const sql = `Call PRC_LIBROS_MAYORES('?','?','?', '?', 4, '');`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
@@ -13,6 +40,8 @@ router.get(["/libromayor"],(req, res)=>{
             res.send('No se pudo obtener resultados')
         }
     });  
+}
+    })
     console.log('Datos leidos correctamente');
 });
 
