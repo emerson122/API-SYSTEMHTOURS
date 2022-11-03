@@ -28,6 +28,7 @@ app.use(require("./routes/clasificacion"));
 app.use(require("./routes/objeto"));
 app.use(require("./routes/parametro"));
 app.use(require("./routes/cuentas"));
+app.use(require("./routes/usuarios"));
 
 
 app.get("*", function (req, res) {
