@@ -15,20 +15,19 @@ app.get("/", (req, res) => {
   res.send("<h1>h1 API Htour</h1>");
 });
 
-//rutas mertodo1
+//rutas seguridad
 app.use("/seguridad", require("./routes/registro"));
 app.use("/seguridad", require("./routes/login"));
-
 app.use("/personas", require("./routes/personas"));
-//añadir las rutas
+app.use(require("./routes/objeto"));
+app.use(require("./routes/parametro"));
+app.use(require("./routes/usuarios"));
+//rutas contables
 app.use(require("./routes/periodo"));
 app.use(require("./routes/librodiario"));
 app.use(require("./routes/libromayor"));
 app.use(require("./routes/clasificacion"));
-app.use(require("./routes/objeto"));
-app.use(require("./routes/parametro"));
 app.use(require("./routes/cuentas"));
-app.use(require("./routes/usuarios"));
 
 
 app.get("*", function (req, res) {
