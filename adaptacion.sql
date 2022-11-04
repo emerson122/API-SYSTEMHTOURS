@@ -1,0 +1,46 @@
+Create PROCEDURE PROC_USUARIOS(
+  IN PV_NOM_USER VARCHAR(100)
+ ,IN PV_NAME VARCHAR(100)
+ ,IN PV_PASS VARCHAR(255)
+, IN PV_OPERACION  VARCHAR(1)
+, IN PI_FILA INT(1)
+)
+BEGIN
+START TRANSACTION;
+IF PV_OPERACION = 1 THEN
+INSERT INTO `users`( `user`, `name`, `pass`) 
+VALUES (PV_NOM_USER,PV_NAME,PV_PASS);
+-- Seleccionar el maximo insertado en la tabla de Ventas
+SELECT @COD_COMPRA := MAX(cod) from users;
+ELSEIF PV_OPERACION = 2 THEN
+UPDATE `users` SET `user`=PV_NOM_USER,`name`=PV_NAME,`pass`=PV_PASS WHERE cod=PI_FILA;
+
+ELSEIF PV_OPERACION = 3 THEN
+DELETE FROM `users`
+WHERE `Cod`= PI_FILA;
+
+ELSEIF PV_OPERACION = 4 THEN
+SELECT * FROM `users`;
+ELSEIF PV_OPERACION = 5 THEN
+SELECT * FROM `users` WHERE COD = PI_FILA;
+END IF;
+COMMIT;
+END;
+
+
+Create PROCEDURE SEL_USUARIOS(
+   IN PV_USER VARCHAR(100)
+  ,IN PV_PASS VARCHAR(255)
+)
+BEGIN
+declare datos1 varchar(100);
+START TRANSACTION;
+SELECT count(*) FROM users where `user`= PV_USER AND `pass`=PV_PASS into datos1;
+
+if(datos1>0) then
+select 1;
+else
+select 0;
+end if;
+COMMIT;
+END;
