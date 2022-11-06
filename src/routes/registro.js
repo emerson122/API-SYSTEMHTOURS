@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("../db");
 const router = express.Router();
+require("dotenv").config();
 
 // leer
 router.get(["/usuarios", "/Leer"], (req, res) => {
@@ -140,6 +141,71 @@ router.post("/respuesta", (req, res) => {
       }
     });
     console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//control
+router.post("/conteo", (req, res) => {
+  try {
+    const objtrecuperacion = {
+      usuario: req.body.user,
+    };
+    const sql = `Call SEL_CONTROL()`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados");
+      }
+    });
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+//control
+router.post("/estadousr", (req, res) => {
+  try {
+    const objuser = {
+      usuario: req.body.user,
+    };
+    const sql = `CALL PRC_OPTIONS('${objuser.usuario}');`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados");
+      }
+    });
+    console.log("Estado de usuario leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//metodo de registro de preguntas
+router.post("/preguntas/insertar", (req, res) => {
+  try {
+    const objpreguntas = {
+      usuario: req.body.user,
+      pregunta: req.body.preg,
+      respuesta: req.body.resp,
+      pass: req.body.pass,
+    };
+    const sql = `CALL PRC_PREGUNTAS('${objpreguntas.pregunta}', '${objpreguntas.respuesta}', '${objpreguntas.usuario}', '${objpreguntas.pass}' )`;
+    mysql.query(sql, (error) => {
+      if (error) throw error;
+      
+        res.sendStatus(200);
+      
+    });
+    console.log("Datos insertados correctamente");
   } catch (error) {
     res.send(error);
   }

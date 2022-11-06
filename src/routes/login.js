@@ -6,7 +6,8 @@ const { json } = require("body-parser");
 const router = express.Router();
 require("dotenv").config();
 
-// insertar
+
+// Login logeo
 router.post("/login", (req, res) => {
   try {
     const objlogin = {
@@ -47,6 +48,7 @@ router.post("/login", (req, res) => {
     res.send(error);
   }
 });
+
 
 //recuperar acceso
 router.post("/recuperarlogin", (req, res) => {
