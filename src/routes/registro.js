@@ -211,4 +211,42 @@ router.post("/preguntas/insertar", (req, res) => {
   }
 });
 
+//actualizar el estado de la persona a Activo
+router.post("/estusr/actualizar", (req, res) => {
+  try {
+    const objpreguntas = {
+      USUARIO: req.body.USER
+    };
+    const sql = `CALL UPD_ESTADOUSR('${objpreguntas.USUARIO}', '1' )`;
+    mysql.query(sql, (error) => {
+      if (error) throw error;
+      
+        res.sendStatus(200);
+      
+    });
+    console.log("Datos insertados correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//ACTUALIZAR CONTRASEÑA PRIMER ACCESO
+router.post("/estusr/pass", (req, res) => {
+  try {
+    const objpreguntas = {
+      USUARIO: req.body.USER,
+      PASS: req.body.PASS
+    };
+    const sql = `CALL UPD_PASS('${objpreguntas.USUARIO}', '${objpreguntas.PASS}' )`;
+    mysql.query(sql, (error) => {
+      if (error) throw error;
+      
+        res.sendStatus(200);
+      
+    });
+    console.log("Datos insertados correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
 module.exports = router;

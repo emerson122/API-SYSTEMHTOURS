@@ -54,6 +54,26 @@ router.get("/:cod", (req, res) => {
     res.send(error);
   }
 });
+// buscar personas por usuario 
+router.post("/usuarios", (req, res) => {
+  try {
+    const objuserper={
+      USUARIO: req.body.USER
+    }
+    const sql = `Call PRC_PERSONAS('${objuserper.USUARIO}', '', '', '', '', '', '', '', 6, '');`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudieron Obtener los datos");
+      }
+    });
+    console.log("Datos Leidos Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 // INSERTAR
 router.post("/insertar", ensureToken, (req, res) => {
