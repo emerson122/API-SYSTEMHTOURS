@@ -72,7 +72,7 @@ router.post("/recuperarlogin", (req, res) => {
 //middleware de autenticacion de seguridad
 router.post("/check", (req, res) => {
   try {
-    jwt.verify(req.body.token, clavesecreta, (error, authData) => {
+    jwt.verify(req.body.token, process.env.JWT, (error, authData) => {
       if (error) {
         res.send("error-parse"); //acceso prohibido
       } else {
@@ -124,7 +124,28 @@ router.get("/api/", ensureToken, (req, res) => {
 });
 
 //Refrescar Token
-
+router.post("/refresh", (req, res) => {
+  try {
+    jwt.verify(req.body.token, process.env.JWT, (error, authData) => {
+      if (error) {
+        res.send("error-parse"); //acceso prohibido
+      } else {
+        jwt.sign(
+          { user: req.body.user },
+          process.env.JWT,
+          { expiresIn: process.env.JWT_TIEMPO_EXPIRA },
+          (err, token) => {
+            res.json({
+              token: token,
+            });
+          }
+        );
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
 //funcion para almacenar el token
 function verificarToken(req, res, next) {
   if (typeof bearerHeader !== "undefined") {
