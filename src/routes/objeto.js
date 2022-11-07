@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 //MIDDLEWARE
 //middleware para asegurarse de que el token pertence a htours
 function ensureToken(req,res,next) {
-    const bearerHeader = req.headers['authorization'];
+    const bearerHeader = req.headers['authorization']; 
     console.log(bearerHeader);
     if(typeof bearerHeader !== 'undefined'){
      const bearer = bearerHeader.split(' ');
@@ -21,12 +21,12 @@ function ensureToken(req,res,next) {
  }
  const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 // LEER TODA LA TABLA
-router.get('/objeto',ensureToken,(req,res)=>{
+router.get('/objetos',ensureToken,(req,res)=>{
     jwt.verify(req.token,clavesecreta,(err,data)=>{
         if(err){
             res.sendStatus(403);
         }else{
-            const sql = `CALL PRC_OBJETOS('', '', '', '', '', 4, '')`;
+            const sql = `CALL PRC_OBJETOS('', '', '',  4, '')`;
             mysql.query(sql,(error,results)=>{
                 if(error) throw error;
                 if (results.length>0) {
@@ -42,9 +42,9 @@ router.get('/objeto',ensureToken,(req,res)=>{
 
 
 //BUSCAR POR ID
-router.get('/objeto/:cod',(req,res)=>{
+router.get('/objetos/:cod',(req,res)=>{
     const {cod} = req.params;
-    const sql = `CALL PRC_OBJETOS('', '', '', '', '', 5, ${cod})`;
+    const sql = `CALL PRC_OBJETOS('', '', '', 5, ${cod})`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         if (results.length>0) {
@@ -57,15 +57,15 @@ router.get('/objeto/:cod',(req,res)=>{
 });
 
 // INSERTAR 
-router.post('/objeto/insertar',(req,res)=>{
+router.post('/objetos/insertar',(req,res)=>{
     const objobjetos = {
-        COD_OBJETO: req.body.COD_OBJETO,
+      
         OBJETO: req.body.OBJETO,
         DES_OBJETO: req.body.DES_OBJETO,
         TIP_OBJETO: req.body.TIP_OBJETO
         
     }
-    const sql = `CALL PRC_OBJETOS(${objobjetos.COD_OBJETO}, ${objobjetos.OBJETO},${objobjetos.DES_OBJETO} , ${objobjetos.TIP_OBJETO},  1, '?')`;
+    const sql = `CALL PRC_OBJETOS( '${objobjetos.OBJETO}','${objobjetos.DES_OBJETO}' , '${objobjetos.TIP_OBJETO}',  1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
@@ -75,7 +75,7 @@ router.post('/objeto/insertar',(req,res)=>{
 
 
 // ACTUALIZAR
-router.put('/objeto/actualizar/:cod',(req,res)=>{
+router.put('/objetos/actualizar/:cod',(req,res)=>{
     const {cod} = req.params;
     const objobjetos = {
         COD_OBJETO: req.body.COD_OBJETO,
@@ -83,7 +83,7 @@ router.put('/objeto/actualizar/:cod',(req,res)=>{
         DES_OBJETO: req.body.DES_OBJETO,
         TIP_OBJETO: req.body.TIP_OBJETO
     }
-    const sql = `CALL PRC_OBJETOS(${objobjetos.COD_OBJETO}, ${objobjetos.OBJETO},${objobjetos.DES_OBJETO} , ${objobjetos.TIP_OBJETO}, 2, ${cod})`;
+    const sql = `CALL PRC_OBJETOS('${objobjetos.OBJETO}','${objobjetos.DES_OBJETO}' , '${objobjetos.TIP_OBJETO}', 2, ${cod})`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos Actualizados")
@@ -94,9 +94,9 @@ router.put('/objeto/actualizar/:cod',(req,res)=>{
 });
 
 // ELIMINAR 
-router.delete('/objeto/eliminar/:cod',(req,res)=>{
+router.delete('/objetoS/eliminar/:cod',(req,res)=>{
     const {cod} = req.params;
-    const sql = `CALL PRC_OBJETOS('', '', '', '', '', 3, ${cod})`;
+    const sql = `CALL PRC_OBJETOS('', '', '',  3, ${cod})`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos Eliminados")
