@@ -25,7 +25,7 @@ router.get("/clasificacion", ensureToken, (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      const sql = `CALL PRC_CLASIFICACIONES('', '', '', '', '', 4, '')`;
+      const sql = `CALL PRC_CLASIFICACIONES( '', 4, '')`;
       mysql.query(sql, (error, results) => {
         if (error) throw error;
         if (results.length > 0) {
@@ -42,7 +42,7 @@ router.get("/clasificacion", ensureToken, (req, res) => {
 //BUSCAR POR ID
 router.get("/clasificacion/:cod", (req, res) => {
   const { cod } = req.params;
-  const sql = `CALL PRC_CLASIFICACIONES('', '', '', '', '', 5, ${cod})`;
+  const sql = `CALL PRC_CLASIFICACIONES('', 5, ${cod})`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     if (results.length > 0) {
@@ -57,10 +57,9 @@ router.get("/clasificacion/:cod", (req, res) => {
 // INSERTAR
 router.post("/clasificacion/insertar", (req, res) => {
   const objclasificacion = {
-    COD_CLASIFICACION: req.body.COD_CLASIFICACION,
     NATURALEZA: req.body.NATURALEZA,
   };
-  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, '${objclasificacion.NATURALEZA}', 1, '?')`;
+  const sql = `CALL PRC_CLASIFICACIONES('${objclasificacion.NATURALEZA}', 1, '?')`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     res.send("Datos insertados");
@@ -72,10 +71,9 @@ router.post("/clasificacion/insertar", (req, res) => {
 router.put("/clasificacion/actualizar/:cod", (req, res) => {
   const { cod } = req.params;
   const objclasificacion = {
-    COD_CLASIFICACION: req.body.COD_CLASIFICACION,
     NATURALEZA: req.body.NATURALEZA,
   };
-  const sql = `CALL PRC_CLASIFICACIONES(${objclasificacion.COD_CLASIFICACION}, '${objclasificacion.NATURALEZA}', 2, ${cod})`;
+  const sql = `CALL PRC_CLASIFICACIONES('${objclasificacion.NATURALEZA}', 2, ${cod})`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     res.send("Datos Actualizados");
@@ -87,7 +85,7 @@ router.put("/clasificacion/actualizar/:cod", (req, res) => {
 // ELIMINAR
 router.delete("/clasificacion/eliminar/:cod", (req, res) => {
   const { cod } = req.params;
-  const sql = `CALL PRC_CLASIFICACIONES('', '', '', '', '', 3, ${cod})`;
+  const sql = `CALL PRC_CLASIFICACIONES('', 3, ${cod})`;
   mysql.query(sql, (error, results) => {
     if (error) throw error;
     res.send("Datos Eliminados");
