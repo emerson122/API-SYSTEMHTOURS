@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
+require("dotenv").config();
 
 
 //MIDDLEWARE
@@ -19,10 +19,10 @@ function ensureToken(req,res,next) {
       res.sendStatus(403); //acceso prohibido
   }
  }
- const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
 // LEER TODA LA TABLA
 router.get('/periodo',ensureToken,(req,res)=>{
-    jwt.verify(req.token,clavesecreta,(err,data)=>{
+    try {  
+    jwt.verify(req.token,process.env.JWT,(err,data)=>{
         if(err){
             res.sendStatus(403);
         }else{
@@ -38,11 +38,20 @@ router.get('/periodo',ensureToken,(req,res)=>{
         }
     })
     console.log('Datos Leidos Correctamente');
+} catch (error) {
+    res.send(error);  
+}
 });
 
 
 //BUSCAR POR ID
-router.get('/periodo/:cod',(req,res)=>{
+router.get('/periodo/:cod',ensureToken,(req,res)=>{
+    try {
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{   
+    
     const {cod} = req.params;
     const sql = `CALL PRC_PERIODOS('', '', '', '', '', 5, ${cod})`;
     mysql.query(sql,(error,results)=>{
@@ -54,10 +63,25 @@ router.get('/periodo/:cod',(req,res)=>{
         }
     })
     console.log('Datos Leidos Correctamente');
+
+
+}
+})
+
+} catch (error) {
+        res.send(error)
+}
 });
 
 // INSERTAR 
-router.post('/periodo/insertar',(req,res)=>{
+router.post('/periodo/insertar',ensureToken,(req,res)=>{
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
+
     const objperiodos = {
         COD_USUARIO: req.body.COD_USUARIO,
         NOM_PERIODO: req.body.NOM_PERIODO,
@@ -65,17 +89,32 @@ router.post('/periodo/insertar',(req,res)=>{
         FEC_FIN: req.body.FEC_FIN,
         ESTADO: req.body.ESTADO
     }
-    const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, ${objperiodos.NOM_PERIODO},${objperiodos.FEC_INI} , ${objperiodos.FEC_FIN}, ${objperiodos.ESTADO}, 1, '?')`;
+    const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
     })
     console.log('Datos insertados Correctamente');
+
+    
+}
+})
+
+} catch (error) {
+        res.send(error)
+}
 });
 
 
 // ACTUALIZAR
-router.put('/periodo/actualizar/:cod',(req,res)=>{
+router.put('/periodo/actualizar/:cod',ensureToken,(req,res)=>{
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
+
     const {cod} = req.params;
     const objperiodos = {
         COD_USUARIO: req.body.COD_USUARIO,
@@ -84,7 +123,7 @@ router.put('/periodo/actualizar/:cod',(req,res)=>{
         FEC_FIN: req.body.FEC_FIN,
         ESTADO: req.body.ESTADO
     }
-    const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, ${objperiodos.NOM_PERIODO},${objperiodos.FEC_INI} , ${objperiodos.FEC_FIN}, ${objperiodos.ESTADO}, 2, ${cod})`;
+    const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 2, ${cod})`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos Actualizados")
@@ -92,10 +131,23 @@ router.put('/periodo/actualizar/:cod',(req,res)=>{
     })
    
     console.log('Datos Actualizados Correctamente');
+
+}
+})
+} catch (error) {
+    res.send(error)
+}
 });
 
 // ELIMINAR 
-router.delete('/periodo/eliminar/:cod',(req,res)=>{
+router.delete('/periodo/eliminar/:cod',ensureToken,(req,res)=>{
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
+
     const {cod} = req.params;
     const sql = `CALL PRC_PERIODOS('', '', '', '', '', 3, ${cod})`;
     mysql.query(sql,(error,results)=>{
@@ -105,5 +157,10 @@ router.delete('/periodo/eliminar/:cod',(req,res)=>{
     })
    
     console.log('Datos Eliminados Correctamente');
+}
+})
+} catch (error) {
+    res.send(error)
+}
 });
 module.exports = router;
