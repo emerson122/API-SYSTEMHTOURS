@@ -76,6 +76,7 @@ router.post("/check", (req, res) => {
       if (error) {
         res.send("error-parse"); //acceso prohibido
       } else {
+        console.log('Chekado Correctamente');
         res.json({
           mensaje: "Autorizado",
           authData: authData,
