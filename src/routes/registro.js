@@ -238,10 +238,15 @@ router.post("/estusr/pass", (req, res) => {
       PASS: req.body.PASS
     };
     const sql = `CALL UPD_PASS('${objpreguntas.USUARIO}', '${objpreguntas.PASS}' )`;
-    mysql.query(sql, (error) => {
+    mysql.query(sql, (error,results) => {
       if (error) throw error;
-      
+
+      if (results.length>0) {
+        res.json(results[0])
+      }else{
+
         res.sendStatus(200);
+      }
       
     });
     console.log("Datos insertados correctamente");
