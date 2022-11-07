@@ -105,4 +105,10 @@ router.post("/insertar", ensureToken, (req, res) => {
   }
 });
 
+//ACTUALIZAR
+
+//ELIMINAR
+
+
+
 module.exports = router;
