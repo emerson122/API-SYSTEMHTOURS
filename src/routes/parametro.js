@@ -2,31 +2,32 @@ const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
+require("dotenv").config();
 
 
 //MIDDLEWARE
 //middleware para asegurarse de que el token pertence a htours
-function ensureToken(req,res,next) {
-    const bearerHeader = req.headers['authorization'];
+function ensureToken(req, res, next) {
+    const bearerHeader = req.headers["authorization"];
     console.log(bearerHeader);
-    if(typeof bearerHeader !== 'undefined'){
-     const bearer = bearerHeader.split(' ');
-     const bearetoken = bearer[1];
-     req.token = bearetoken;
-     next();
-  }else{
+    if (typeof bearerHeader !== "undefined") {
+      const bearer = bearerHeader.split(" ");
+      const bearetoken = bearer[1];
+      req.token = bearetoken;
+      next();
+    } else {
       res.sendStatus(403); //acceso prohibido
+    }
   }
- }
- const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
+
 // LEER TODA LA TABLA
-router.get('/parametro',ensureToken,(req,res)=>{
-    jwt.verify(req.token,clavesecreta,(err,data)=>{
-        if(err){
+router.get('/parametros',ensureToken,(req,res)=>{
+    try {
+        jwt.verify(req.token, process.env.JWT, (err, data) => {
+          if (err) {
             res.sendStatus(403);
-        }else{
-            const sql = `CALL PRC_PARAMETROS('', '', '', '', '', 4, '')`;
+          } else {
+            const sql = `CALL PRC_MS_PARAMETROS('', '', '', '', 4, '')`;
             mysql.query(sql,(error,results)=>{
                 if(error) throw error;
                 if (results.length>0) {
@@ -35,77 +36,118 @@ router.get('/parametro',ensureToken,(req,res)=>{
                     res.send('No se pudieron Obtener los datos')
                 }
             });
+            console.log('Datos Leidos Correctamente');
         }
     })
-    console.log('Datos Leidos Correctamente');
+} catch (error) {
+    res.send(error);
+  }
 });
 
 
 //BUSCAR POR ID
-router.get('/parametro/:cod',(req,res)=>{
-    const {cod} = req.params;
-    const sql = `CALL PRC_PARAMETROS('', '', '', '', '', 5, ${cod})`;
-    mysql.query(sql,(error,results)=>{
-        if(error) throw error;
-        if (results.length>0) {
+router.get("/parametros/:cod", ensureToken,(req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const { cod } = req.params;
+        const sql = `CALL PRC_MS_PARAMETROS('', '', '','', 5, ${cod})`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
             res.json(results[0]);
-        }else{
-            res.send('No se pudieron Obtener los datos')
-        }
-    })
-    console.log('Datos Leidos Correctamente');
+          } else {
+            res.send("No se pudieron Obtener los datos");
+          }
+        });
+        console.log("Datos Leidos Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 // INSERTAR 
-router.post('/parametro/insertar',(req,res)=>{
+router.post('/parametros/insertar',ensureToken,(req,res)=>{
+    try {
+        
+            jwt.verify(req.token, process.env.JWT, (err, data) => {
+              if (err) {
+                res.sendStatus(403);
+              } else {
+   
     const objparametros = {
-        COD_PARAMETRO: req.body.COD_PARAMETRO,
+        
         PARAMETRO: req.body.PARAMETRO,
         VALOR: req.body.VALOR,
         COD_USR: req.body.COD_USR,
-        FEC_CREACION: req.body.FEC_CREACION,
         FEC_MODIFICACION: req.body.FEC_MODIFICACION
     }
-    const sql = `CALL PRC_PARAMETROS(${objparametros.COD_PARAMETRO}, ${objparametros.PARAMETRO},${objparametro.VALOR} , ${objparametro.COD_USR}, ${objparametro.FEC_CREACION}, ${objparametro.FEC_MODIFICACION}, 1, '?')`;
+    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' , ${objparametros.COD_USR}, now(), 1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
     })
     console.log('Datos insertados Correctamente');
+}
+});
+} catch (error) {
+    res.send(error)    
+}
 });
 
 
 // ACTUALIZAR
-router.put('/parametro/actualizar/:cod',(req,res)=>{
-    const {cod} = req.params;
-    const objparametros = {
-        COD_PARAMETRO: req.body.COD_PARAMETRO,
-        PARAMETRO: req.body.PARAMETRO,
-        VALOR: req.body.VALOR,
-        COD_USR: req.body.COD_USR,
-        FEC_CREACION: req.body.FEC_CREACION,
-        FEC_MODIFICACION: req.body.FEC_MODIFICACION
-    }
-    const sql = `CALL PRC_PARAMETROS(${objparametros.COD_PARAMETRO}, ${objparametros.PARAMETRO},${objparametro.VALOR} , ${objparametro.COD_USR}, ${objparametro.FEC_CREACION}, ${objparametro.FEC_MODIFICACION}, 2, ${cod})`;
-    mysql.query(sql,(error,results)=>{
-        if(error) throw error;
-        res.send("Datos Actualizados")
-        
-    })
-   
-    console.log('Datos Actualizados Correctamente');
+router.put('/parametros/actualizar/:cod',ensureToken,(req,res)=>{
+    try {
+       
+        jwt.verify(req.token, process.env.JWT, (err, data) => {
+          if (err) {
+            res.sendStatus(403);
+          } else {
+            const { cod } = req.params;
+            const objparametros = {
+              PARAMETRO: req.body.PARAMETRO,
+              VALOR: req.body.VALOR,
+              COD_USR: req.body.COD_USR,
+              FEC_CREACION: req.body.FEC_CREACION,
+            };
+            const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' , ${objparametros.COD_USR}, '${objparametros.FEC_CREACION}', 2, ${cod})`;
+            mysql.query(sql, (error, results) => {
+              if (error) throw error;
+              res.send("Datos Actualizados");
+            });
+            console.log('Datos Actualizados Correctamente');
+}
+});
+} catch (error) {
+    res.send(error)    
+}
+
 });
 
 // ELIMINAR 
-router.delete('/parametro/eliminar/:cod',(req,res)=>{
-    const {cod} = req.params;
-    const sql = `CALL PRC_PARAMETROS('', '', '', '', '', 3, ${cod})`;
-    mysql.query(sql,(error,results)=>{
-        if(error) throw error;
-        res.send("Datos Eliminados")
-        
-    })
-   
-    console.log('Datos Eliminados Correctamente');
+router.delete("/parametros/eliminar/:cod", ensureToken,(req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const { cod } = req.params;
+        const sql = `CALL PRC_MS_PARAMETROS('', '', '', '', 3, ${cod})`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos Eliminados");
+        });
+
+        console.log("Datos Eliminados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
 });
 module.exports = router;
