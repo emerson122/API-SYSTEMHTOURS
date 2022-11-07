@@ -70,6 +70,34 @@ router.get("/parametros/:cod", ensureToken,(req, res) => {
   }
 });
 
+//BUSCAR UN SOLO PARAMETRO
+router.post('/parametros/buscar',ensureToken,(req,res)=>{
+    try {
+            jwt.verify(req.token, process.env.JWT, (err, data) => {
+              if (err) {
+                res.sendStatus(403);
+              } else {
+   
+    const objparametros = { 
+        PARAMETRO: req.body.PARAMETRO,
+    }
+    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','' , '', '', 6, '?')`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        if (results.length > 0) {
+            res.json(results[0])
+        }else{
+            res.send("No se obtuvieron datos")
+        }
+    })
+    console.log('Datos insertados Correctamente');
+}
+});
+} catch (error) {
+    res.send(error)    
+}
+});
+
 // INSERTAR 
 router.post('/parametros/insertar',ensureToken,(req,res)=>{
     try {
