@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-
+require("dotenv").config();
 
 
 
@@ -23,7 +23,7 @@ function ensureToken(req,res,next) {
       res.sendStatus(403); //acceso prohibido
   }
  }
- const clavesecreta= 'ZAKESTHtw1243rtewgds08523765432379';
+
 
 
 
@@ -32,7 +32,8 @@ function ensureToken(req,res,next) {
 
 // leer //FUNCIONAL
 router.get("/librodiario",ensureToken,(req, res)=>{
-    jwt.verify(req.token,clavesecreta,(err,data)=>{
+    try{
+    jwt.verify(req.token,process.env.JWT,(err,data)=>{
         if(err){
             res.sendStatus(403);
         }else{
@@ -50,11 +51,23 @@ router.get("/librodiario",ensureToken,(req, res)=>{
 
     })
     console.log('Datos leidos correctamente');
+    }catch(error){
+        res.send(error);
+    }
+
+
 });
 
 
 //BUSCAR POR ID//FUNCIONAL
-router.get('/librodiario/:cod',(req,res)=>{
+router.get('/librodiario/:cod',ensureToken,(req,res)=>{
+
+    try {
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{   
+
     const {cod} = req.params;
     const sql = `CALL PRC_LIBDIARIO('?', '?', '?', '?', '?', 6, ${cod})`
     mysql.query(sql,(error,results)=>{
@@ -66,6 +79,11 @@ router.get('/librodiario/:cod',(req,res)=>{
         }
     })
     console.log('Datos Leidos Correctamente');
+}
+})
+} catch (error) {
+    res.send(error)
+}
 });
 
 
@@ -73,7 +91,16 @@ router.get('/librodiario/:cod',(req,res)=>{
 
 
 // insertar// FUNCIONAL
-router.post('/librodiario/insertar',(req,res)=>{
+router.post('/librodiario/insertar',ensureToken,(req,res)=>{
+
+
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
+
     const objlibrodiario ={
 
         COD_PERIODO: req.body.COD_PERIODO,
@@ -89,11 +116,28 @@ router.post('/librodiario/insertar',(req,res)=>{
         res.send('Los datos se insertaron correctamente')
     })
     console.log('Datos insertados correctamente');
+
+}
+})
+
+} catch (error) {
+        res.send(error)
+}
 });
 
 
 // ACTUALIZAR // FUNCIONAL
-router.put('/librodiario/actualizar/:cod',(req,res)=>{
+router.put('/librodiario/actualizar/:cod',ensureToken,(req,res)=>{
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
+
+
+
+
     const {cod} = req.params;
     const objlibrodiario ={
 
@@ -113,13 +157,26 @@ router.put('/librodiario/actualizar/:cod',(req,res)=>{
     })
    
     console.log('Datos Actualizados Correctamente');
+
+}
+})
+} catch (error) {
+    res.send(error)
+}
 });
 
 
 
 
 // ELIMINAR  // FUNCIONAL
-router.delete('/librodiario/eliminar/:cod',(req,res)=>{
+router.delete('/librodiario/eliminar/:cod',ensureToken,(req,res)=>{
+
+    try {
+        
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
     const {cod} = req.params;
     const sql = `CALL DEL_LIBDIARIO( ${cod})`
     mysql.query(sql,(error,results)=>{
@@ -129,6 +186,11 @@ router.delete('/librodiario/eliminar/:cod',(req,res)=>{
     })
    
     console.log('Datos Eliminados Correctamente');
+}
+})
+} catch (error) {
+    res.send(error)
+}
 });
 
 
