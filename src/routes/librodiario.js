@@ -80,6 +80,8 @@ router.get('/librodiario/:cod',ensureToken,(req,res)=>{
 
 
 
+
+
 // INSERTAR // FUNCIONAL
 router.post('/librodiario/insertar',ensureToken,(req,res)=>{
     try {
@@ -142,6 +144,7 @@ router.put('/librodiario/actualizar/:cod',ensureToken,(req,res)=>{
 
 
 
+
 // ELIMINAR  // FUNCIONAL
 router.delete('/librodiario/eliminar/:cod',ensureToken,(req,res)=>{
     try {
@@ -162,7 +165,6 @@ router.delete('/librodiario/eliminar/:cod',ensureToken,(req,res)=>{
             res.send(error)
         }
 });
-
 
 
 
