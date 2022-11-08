@@ -25,8 +25,7 @@ function ensureToken(req,res,next) {
 
 
 
-
-// leer FUNCIONAL
+// LEER DATOS  //FUNCIONAL
 router.get("/libromayor",ensureToken,(req, res)=>{
     try {  
         jwt.verify(req.token,process.env.JWT,(err,data)=>{
@@ -42,17 +41,20 @@ router.get("/libromayor",ensureToken,(req, res)=>{
             res.send('No se pudo obtener resultados')
         }
     });  
-}
+        }
     })
-    console.log('Datos Leidos Correctamente');
-} catch (error) {
-    res.send(error);  
-}
+        console.log('Datos Leidos Correctamente');
+        } catch (error) {
+            res.send(error);  
+        }
 });
 
-//BUSCAR POR ID FUNCIONAL
-router.get('/libromayor/:cod',ensureToken,(req,res)=>{
 
+
+
+
+//BUSCAR POR ID//FUNCIONAL
+router.get('/libromayor/:cod',ensureToken,(req,res)=>{
         try {
             jwt.verify(req.token,process.env.JWT,(err,data)=>{
                 if(err){
@@ -68,117 +70,100 @@ router.get('/libromayor/:cod',ensureToken,(req,res)=>{
             res.send('No se pudieron Obtener los datos')
         }
     })
-    console.log('Datos Leidos Correctamente');
-
-
-
-}
-})
-} catch (error) {
+        console.log('Datos Leidos Correctamente');
+        }
+    })
+        } catch (error) {
             res.send(error)
-}
+        }
 });
 
 
 
 
-// INSERTAR  FUNCIONAL
+// INSERTAR // FUNCIONAL
 router.post('/libromayor/insertar',ensureToken,(req,res)=>{
     try {
-        
         jwt.verify(req.token,process.env.JWT,(err,data)=>{
             if(err){
                 res.sendStatus(403);
             }else{  
-
-
     const objlibromayor = {
-
         COD_PERIODO: req.body.COD_PERIODO,
         NOM_CUENTA: req.body.NOM_CUENTA,
         SAL_DEBE: req.body.SAL_DEBE,
-        SAL_HABER: req.body.SAL_HABER,
-        
- 
+        SAL_HABER: req.body.SAL_HABER,   
     }
     const sql = `CALL PRC_LIBROS_MAYORES(${objlibromayor.COD_PERIODO} ,'${objlibromayor.NOM_CUENTA}',${objlibromayor.SAL_DEBE},${objlibromayor.SAL_HABER}, 6, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
     })
-    console.log('Datos insertados Correctamente');
-
-}
-})
-
-} catch (error) {
-        res.send(error)
-}
+        console.log('Datos insertados Correctamente');
+        }
+    })
+        } catch (error) {
+            res.send(error)
+        }
 });
 
 
-// ACTUALIZAR FUNCIONAL
-router.put('/libromayor/actualizar/:cod',ensureToken,(req,res)=>{
 
+
+
+// ACTUALIZAR // FUNCIONAL
+router.put('/libromayor/actualizar/:cod',ensureToken,(req,res)=>{
     try {
-        
         jwt.verify(req.token,process.env.JWT,(err,data)=>{
             if(err){
                 res.sendStatus(403);
             }else{  
     const {cod} = req.params;
     const objlibromayor ={
-
-
         COD_PERIODO: req.body.COD_PERIODO,
         NOM_CUENTA: req.body.NOM_CUENTA,
         SAL_DEBE: req.body.SAL_DEBE,
         SAL_HABER: req.body.SAL_HABER,
- 
     }
     const sql = `CALL PRC_LIBROS_MAYORES(${objlibromayor.COD_PERIODO} ,'${objlibromayor.NOM_CUENTA}',${objlibromayor.SAL_DEBE},${objlibromayor.SAL_HABER},2,${cod})`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
-        res.send("Datos Actualizados")
-        
+        res.send("Datos Actualizados")  
     })
-   
-    console.log('Datos Actualizados Correctamente');
-}
-})
-} catch (error) {
-    res.send(error)
-}
+        console.log('Datos Actualizados Correctamente');
+        }
+    })
+        } catch (error) {
+            res.send(error)
+        }
 });
 
 
-// ELIMINAR FUNCIONAL 
+
+
+
+// ELIMINAR  // FUNCIONAL
 router.delete('/libromayor/eliminar/:cod',ensureToken,(req,res)=>{
-
-
     try {
-        
         jwt.verify(req.token,process.env.JWT,(err,data)=>{
             if(err){
                 res.sendStatus(403);
             }else{  
-
     const {cod} = req.params;
     const sql = `CALL PRC_LIBROS_MAYORES('?', '?', '?', '?', 3, ${cod})`
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos Eliminados")
-        
     })
-   
-    console.log('Datos Eliminados Correctamente');
-
-}
-})
-} catch (error) {
-    res.send(error)
-}
+        console.log('Datos Eliminados Correctamente');
+        }
+    })
+        } catch (error) {
+            res.send(error)
+        }
 });
+
+
 
 
 
