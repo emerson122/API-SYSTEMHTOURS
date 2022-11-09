@@ -88,4 +88,5 @@ router.delete("/cuentas/eliminar/:cod ",(req, res)=>{
     });  
     console.log('Datos eliminados correctamente');
 });
+
 module.exports = router;

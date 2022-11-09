@@ -105,4 +105,5 @@ router.delete('/objetoS/eliminar/:cod',(req,res)=>{
    
     console.log('Datos Eliminados Correctamente');
 });
+
 module.exports = router;

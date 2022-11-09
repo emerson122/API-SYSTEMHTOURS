@@ -178,4 +178,5 @@ router.delete("/parametros/eliminar/:cod", ensureToken,(req, res) => {
     res.send(error);
   }
 });
+
 module.exports = router;
