@@ -29,7 +29,6 @@ app.use(require("./routes/libromayor"));
 app.use(require("./routes/clasificacion"));
 app.use(require("./routes/cuentas"));
 
-
 app.get("*", function (req, res) {
   res.status(404).send("Error 404 - Recurso no encontrado :(");
 });
