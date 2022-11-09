@@ -26,6 +26,7 @@ router.get("/libromayor", ensureToken, (req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
+        
         const sql = `Call PRC_LIBROS_MAYORES('?','?','?', '?', 4, '');`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
