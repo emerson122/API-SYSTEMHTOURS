@@ -12,7 +12,7 @@ app.use(bodyparser.json());
 
 //inicio
 app.get("/", (req, res) => {
-  res.send("<h1>h1 API Htour</h1>");
+  res.send("<h1> API SystemHtors by TecnoBot </h1>");
 });
 
 //rutas seguridad
