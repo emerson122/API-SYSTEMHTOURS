@@ -18,28 +18,28 @@ function ensureToken(req,res,next) {
  }
 
  // LEER TODA LA TABLA
-router.get('/periodo',ensureToken,(req,res)=>{
-    try {  
-    jwt.verify(req.token,process.env.JWT,(err,data)=>{
-        if(err){
-            res.sendStatus(403);
-        }else{
-            const sql = `CALL PRC_PERIODOS('', '', '', '', '', 4, '')`;
-            mysql.query(sql,(error,results)=>{
-                if(error) throw error;
-                if (results.length>0) {
-                    res.json(results[0]);
-                }else{
-                    res.send('No se pudieron Obtener los datos')
-                }
-            });
-        }
-    })
-    console.log('Datos Leidos Correctamente');
-} catch (error) {
-    res.send(error);  
-}
-});
+// router.get('/periodo',ensureToken,(req,res)=>{
+//     try {  
+//     jwt.verify(req.token,process.env.JWT,(err,data)=>{
+//         if(err){
+//             res.sendStatus(403);
+//         }else{
+//             const sql = `CALL PRC_PERIODOS('', '', '', '', '', 4, '')`;
+//             mysql.query(sql,(error,results)=>{
+//                 if(error) throw error;
+//                 if (results.length>0) {
+//                     res.json(results[0]);
+//                 }else{
+//                     res.send('No se pudieron Obtener los datos')
+//                 }
+//             });
+//         }
+//     })
+//     console.log('Datos Leidos Correctamente');
+// } catch (error) {
+//     res.send(error);  
+// }
+// });
 
 
 //BUSCAR POR ID
