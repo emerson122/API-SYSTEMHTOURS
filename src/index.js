@@ -18,6 +18,7 @@ app.get("/", (req, res) => {
 //rutas seguridad
 app.use("/seguridad", require("./routes/registro"));
 app.use("/seguridad", require("./routes/login"));
+app.use("/seguridad", require("./routes/bitacora"));
 app.use("/personas", require("./routes/personas"));
 app.use("/roles", require("./routes/roles"));
 app.use("/permisos", require("./routes/permisos"));
