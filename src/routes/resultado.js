@@ -17,13 +17,13 @@ function ensureToken(req,res,next) {
   }
  }
 
- router.post('/resultado',(req,res)=>{
+ router.post('/resultado',ensureToken,(req,res)=>{
     try {
         
-        //  jwt.verify(req.token,process.env.JWT,(err,data)=>{
-        //      if(err){
-        //          res.sendStatus(403);
-        //      }else{  
+         jwt.verify(req.token,process.env.JWT,(err,data)=>{
+             if(err){
+                 res.sendStatus(403);
+             }else{  
 const objresultado={
     COD_PERIODO:req.body.PERIODO
 }
@@ -40,8 +40,8 @@ const objresultado={
     console.log('Datos insertados Correctamente');
  
     
-// }
-// })
+}
+})
 
 } catch (error) {
         res.send(error)
