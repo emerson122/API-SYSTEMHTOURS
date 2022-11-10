@@ -18,7 +18,7 @@ function ensureToken(req,res,next) {
  }
 
 // INSERTAR 
-router.post("/balance/insertar", (req, res) => {
+router.post("/balance/insertar", ensureToken,(req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
       if (err) {
@@ -46,7 +46,7 @@ router.post("/balance/insertar", (req, res) => {
 
 
 
-router.get('/balance',(req,res)=>{
+router.get('/balance',ensureToken,(req,res)=>{
     try {
         
          jwt.verify(req.token,process.env.JWT,(err,data)=>{
