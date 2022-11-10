@@ -75,10 +75,10 @@ function ensureToken(req,res,next) {
 router.post('/balance/insertar',(req,res)=>{
     try {
         
-        // jwt.verify(req.token,process.env.JWT,(err,data)=>{
-        //     if(err){
-        //         res.sendStatus(403);
-        //     }else{  
+        jwt.verify(req.token,process.env.JWT,(err,data)=>{
+            if(err){
+                res.sendStatus(403);
+            }else{  
 
     const objbalance = {
         COD_PERIODO: req.body.COD_PERIODO
@@ -96,14 +96,42 @@ router.post('/balance/insertar',(req,res)=>{
     console.log('Datos insertados Correctamente');
  
     
-// }
-// })
+}
+})
 
 } catch (error) {
         res.send(error)
 }
 });
 
+router.get('/balance',(req,res)=>{
+    try {
+        
+         jwt.verify(req.token,process.env.JWT,(err,data)=>{
+             if(err){
+                 res.sendStatus(403);
+             }else{  
+
+    
+    const sql = `call PRC_BAL_GENERAL('', 2)`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+    if (results.length>0) {
+        res.json(results[0])
+    } else {
+       res.send('no se pudieron obtener los datos') 
+    }
+    })
+    console.log('Datos insertados Correctamente');
+ 
+    
+}
+})
+
+} catch (error) {
+        res.send(error)
+}
+});
 
 // // ACTUALIZAR
 // router.put('/periodo/actualizar/:cod',ensureToken,(req,res)=>{
