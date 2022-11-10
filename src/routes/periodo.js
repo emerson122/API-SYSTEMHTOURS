@@ -43,7 +43,6 @@ router.get('/periodo',ensureToken,(req,res)=>{
 }
 });
 
-
 //BUSCAR POR ID
 router.get('/periodo/:cod',ensureToken,(req,res)=>{
     try {
