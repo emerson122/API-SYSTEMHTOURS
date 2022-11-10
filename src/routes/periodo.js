@@ -163,4 +163,6 @@ router.delete('/periodo/eliminar/:cod',ensureToken,(req,res)=>{
     res.send(error)
 }
 });
+
+
 module.exports = router;
