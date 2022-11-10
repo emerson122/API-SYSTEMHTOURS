@@ -1,7 +1,7 @@
-const express = require('express');
-const mysql = require('../db');
-const router=express.Router();
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const mysql = require("../db");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 function ensureToken(req, res, next) {
@@ -17,6 +17,7 @@ function ensureToken(req, res, next) {
   }
 }
 
+//LEER TODA LA BITACORA
 router.get(["/bitacora"], ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
@@ -40,6 +41,7 @@ router.get(["/bitacora"], ensureToken, (req, res) => {
   }
 });
 
+//INSERTAR EN LA BITACORA
 router.post("/bitacora/insertar", ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
@@ -57,6 +59,33 @@ router.post("/bitacora/insertar", ensureToken, (req, res) => {
           if (error) throw error;
 
           res.send("Datos insertados");
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//LEER SOLO LOS DATOS DE UN USUARIO
+router.post("/bitacora/user", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objbitacora = {
+          USR: req.body.USR,
+        };
+        const sql = `CALL PRC_BITACORA('${objbitacora.USR}','','','',3)`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("Ocurrio un Error");
+          }
         });
         console.log("Datos insertados Correctamente");
       }
