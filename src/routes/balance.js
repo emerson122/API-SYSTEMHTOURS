@@ -94,7 +94,7 @@ router.post('/balance/insertar',(req,res)=>{
     }
     })
     console.log('Datos insertados Correctamente');
-
+ 
     
 // }
 // })
