@@ -19,6 +19,8 @@ app.get("/", (req, res) => {
 app.use("/seguridad", require("./routes/registro"));
 app.use("/seguridad", require("./routes/login"));
 app.use("/personas", require("./routes/personas"));
+app.use("/roles", require("./routes/roles"));
+app.use("/permisos", require("./routes/permisos"));
 app.use(require("./routes/objeto"));
 app.use(require("./routes/parametro"));
 app.use(require("./routes/usuarios"));
