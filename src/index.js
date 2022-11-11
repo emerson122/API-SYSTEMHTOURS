@@ -33,6 +33,7 @@ app.use(require("./routes/librodiario"));
 app.use(require("./routes/libromayor"));
 app.use(require("./routes/clasificacion"));
 app.use(require("./routes/cuentas"));
+app.use(require("./routes/grupos"));
 app.use(require("./routes/subcuentas"));
 
 app.get("*", function (req, res) {
