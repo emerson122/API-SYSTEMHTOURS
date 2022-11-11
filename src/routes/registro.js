@@ -3,6 +3,8 @@ const mysql = require("../db");
 const router = express.Router();
 require("dotenv").config();
 
+//Autor Emerson Ramos
+
 // leer
 router.get(["/usuarios", "/Leer"], (req, res) => {
   try {

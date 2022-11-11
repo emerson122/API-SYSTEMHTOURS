@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('../db');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+//Autor Alexandra Moya
 
 //middleware para asegurarse de que el token pertence a htours
 function ensureToken(req, res, next) {

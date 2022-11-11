@@ -3,6 +3,7 @@ const mysql = require("../db");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+// Autor:Noe Roberto Garcia 
 
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];

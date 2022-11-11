@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { route } = require("./cuentas");
 require("dotenv").config();
+// Autor:Emerson Ramos
 
 //middleware para asegurarse de que el token pertence a htours
 function ensureToken(req, res, next) {
