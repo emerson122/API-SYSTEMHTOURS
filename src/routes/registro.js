@@ -254,6 +254,46 @@ router.post("/estusr/actualizar", (req, res) => {
   }
 });
 
+
+//actualizar el estado de la persona a bloqueado
+router.post("/estusr/bloquear", (req, res) => {
+  try {
+    const objpreguntas = {
+      USUARIO: req.body.USER
+    };
+    const sql = `CALL UPD_ESTADOUSR('${objpreguntas.USUARIO}', '2' )`;
+    mysql.query(sql, (error) => {
+      if (error) throw error;
+      
+      res.sendStatus(200);
+      
+    });
+    console.log("Datos insertados correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//actualizar el estado de la persona a inactivo
+router.post("/estusr/inactivar", (req, res) => {
+  try {
+    const objpreguntas = {
+      USUARIO: req.body.USER
+    };
+    const sql = `CALL UPD_ESTADOUSR('${objpreguntas.USUARIO}', '3' )`;
+    mysql.query(sql, (error) => {
+      if (error) throw error;
+      
+        res.sendStatus(200);
+      
+    });
+    console.log("Datos insertados correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 //ACTUALIZAR CONTRASEÑA PRIMER ACCESO
 router.post("/estusr/pass", (req, res) => {
   try {
