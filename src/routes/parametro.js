@@ -70,7 +70,7 @@ router.get("/parametros/:cod", ensureToken,(req, res) => {
   }
 });
 
-//BUSCAR UN SOLO PARAMETRO
+//BUSCAR UN SOLO PARAMETRO POR NOMBRE
 router.post('/parametros/buscar',ensureToken,(req,res)=>{
     try {
             jwt.verify(req.token, process.env.JWT, (err, data) => {
