@@ -1,9 +1,25 @@
 const express = require("express");
 const mysql = require("../db");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 //Autor Emerson Ramos
+//MIDDLEWARE
+//middleware para asegurarse de que el token pertence a htours
+function ensureToken(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
+  console.log(bearerHeader);
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    const bearetoken = bearer[1];
+    req.token = bearetoken;
+    next();
+  } else {
+    res.sendStatus(403); //acceso prohibido
+  }
+}
+
 
 // leer
 router.get(["/usuarios", "/Leer"], (req, res) => {
@@ -110,7 +126,7 @@ router.post("/preguntas", (req, res) => {
       pregunta: req.body.preg,
       respuesta: req.body.resp,
     };
-    const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','${objpreguntas.pregunta}','${objpreguntas.respuesta}','P')`;
+    const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','','','P')`;
     mysql.query(sql, (error, results) => {
       if (error) throw error;
       if (results.length > 0) {
@@ -192,8 +208,12 @@ router.post("/estadousr", (req, res) => {
 });
 
 //metodo de registro de preguntas
-router.post("/preguntas/insertar", (req, res) => {
+router.post("/preguntas/insertar", ensureToken,(req, res) => {
   try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
     const objpreguntas = {
       usuario: req.body.user,
       pregunta: req.body.preg,
@@ -204,10 +224,12 @@ router.post("/preguntas/insertar", (req, res) => {
     mysql.query(sql, (error) => {
       if (error) throw error;
       
-        res.sendStatus(200);
+        res.send('datos insertados');
       
     });
     console.log("Datos insertados correctamente");
+  }
+});
   } catch (error) {
     res.send(error);
   }

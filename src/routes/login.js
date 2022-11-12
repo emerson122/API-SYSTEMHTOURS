@@ -106,6 +106,31 @@ router.post("/correocheck", (req, res) => {
   }
 });
 
+router.post('/parametros/intentos',(req,res)=>{
+  try {
+         
+ 
+  const objparametros = { 
+      PARAMETRO: "ADMIN_INTENTOS_INVALIDOS"
+  }
+  const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','' , '', '', 6, '?')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if (results.length > 0) {
+          res.json(results[0])
+      }else{
+          res.send("No se obtuvieron datos")
+      }
+  })
+  console.log('Datos insertados Correctamente');
+
+} catch (error) {
+  res.send(error)    
+}
+});
+
+
+
 //ruta protegida
 router.get("/api/", ensureToken, (req, res) => {
   try {
@@ -147,6 +172,7 @@ router.post("/refresh", (req, res) => {
     res.send(error);
   }
 });
+
 //funcion para almacenar el token
 function verificarToken(req, res, next) {
   if (typeof bearerHeader !== "undefined") {
