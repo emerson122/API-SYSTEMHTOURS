@@ -207,7 +207,7 @@ router.post("/conteo", (req, res) => {
   }
 });
 
-//control
+//saber el estado de un Usuario
 router.post("/estadousr", (req, res) => {
   try {
     const objuser = {
