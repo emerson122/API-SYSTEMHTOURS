@@ -152,8 +152,6 @@ router.post('/parametros/cant_preg',(req,res)=>{
 });
 
 
-
-
 //ruta protegida
 router.get("/api/", ensureToken, (req, res) => {
   try {
