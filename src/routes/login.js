@@ -87,7 +87,6 @@ router.post("/check", (req, res) => {
     res.send(error);
   }
 });
-
 //verificacion de token de correo
 router.post("/correocheck", (req, res) => {
   try {
@@ -106,6 +105,7 @@ router.post("/correocheck", (req, res) => {
   }
 });
 
+//parametro externo de intentos invalidos
 router.post('/parametros/intentos',(req,res)=>{
   try {
          
@@ -128,6 +128,29 @@ router.post('/parametros/intentos',(req,res)=>{
   res.send(error)    
 }
 });
+
+//Parametro Externo de cantidad de preguntas
+router.post('/parametros/cant_preg',(req,res)=>{
+  try {
+  const objparametros = { 
+      PARAMETRO: "ADMIN_PREGUNTAS"
+  }
+  const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','' , '', '', 6, '?')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if (results.length > 0) {
+          res.json(results[0])
+      }else{
+          res.send("No se obtuvieron datos")
+      }
+  })
+  console.log('Datos insertados Correctamente');
+
+} catch (error) {
+  res.send(error)    
+}
+});
+
 
 
 

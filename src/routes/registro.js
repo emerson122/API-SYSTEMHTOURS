@@ -140,7 +140,6 @@ router.post("/preguntas", (req, res) => {
     res.send(error);
   }
 });
-
 // metodo de recuperacion por respuesta
 router.post("/respuesta", (req, res) => {
   try {
@@ -150,6 +149,29 @@ router.post("/respuesta", (req, res) => {
       respuesta: req.body.resp,
     };
     const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','${objpreguntas.pregunta}','${objpreguntas.respuesta}','R')`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados");
+      }
+    });
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// metodo de recuperacion por respuesta
+router.post("/pregunta/ignorada", (req, res) => {
+  try {
+    const objpreguntas = {
+      usuario: req.body.user,
+      pregunta: req.body.preg,
+      respuesta: req.body.resp,
+    };
+    const sql = `CALL PRC_USERPREG('${objpreguntas.usuario}','${objpreguntas.pregunta}','${objpreguntas.respuesta}','I')`;
     mysql.query(sql, (error, results) => {
       if (error) throw error;
       if (results.length > 0) {
@@ -184,7 +206,6 @@ router.post("/conteo", (req, res) => {
     res.send(error);
   }
 });
-
 
 //control
 router.post("/estadousr", (req, res) => {
