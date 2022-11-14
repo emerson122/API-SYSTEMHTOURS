@@ -45,11 +45,10 @@ router.post("/usuarios/registrar", (req, res) => {
     const objUsuarios = {
       usuario: req.body.USER,
       name: req.body.NOMBRE_USUARIO,
-      rol: req.body.ROL_USUARIO,
       correo: req.body.CORREO_ELECTRONICO,
       passwd: req.body.PASS
     };
-    const sql = `CALL PRC_MS_USR_REGISTRO("${objUsuarios.usuario}","${objUsuarios.name}", ${objUsuarios.rol}, now(), 0, 1, "${objUsuarios.correo}", "${objUsuarios.passwd}")`;
+    const sql = `CALL PRC_MS_USR_REGISTRO("${objUsuarios.usuario}","${objUsuarios.name}", now(), 0, 1, "${objUsuarios.correo}", "${objUsuarios.passwd}")`;
     mysql.query(sql, (error,results) => {
       if (error) throw error;
       if(results.length > 0){

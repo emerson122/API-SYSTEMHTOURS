@@ -50,6 +50,106 @@ router.get(["/sel_rol"],ensureToken, (req, res) => {
   }
 });
 
+// SELECCIONAR POR ID
+
+///////////////////////////////////////////////////////////////////
+
+router.get(["/sel_rol/:cod"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+    const {cod} = req.params;
+    const sql = `CALL PRC_MS_SEL_COD_ROLES(${cod})`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+// SELECCIONAR POR NOMBRE
+
+///////////////////////////////////////////////////////////////////
+
+router.post(["/sel_rol/buscar"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+
+    const  objrol = {
+      ROL: req.body.ROL
+    }
+    const sql = `CALL PRC_MS_SEL_NOM_ROLES('${objrol.ROL}')`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+
+// VER EL ROL DE UN USUARIO
+
+///////////////////////////////////////////////////////////////////
+
+router.post(["/sel_rol/user"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+
+    const  objrol = {
+      USER: req.body.USER
+    }
+    const sql = `CALL SEL_ROL_USR('${objrol.USER}')`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 // INSERTAR
 
 ///////////////////////////////////////////////////////////////////
