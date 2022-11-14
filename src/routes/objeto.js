@@ -69,6 +69,35 @@ router.get("/objetos/:cod", ensureToken, (req, res) => {
   }
 });
 
+
+//BUSCAR POR NOMBRE
+router.post("/objetos/buscar", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objobjetos = {
+          OBJETO: req.body.OBJETO
+        };
+        const sql = `CALL PRC_OBJETOS( '${objobjetos.OBJETO}','' , '',  6, '?')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if(results.length>0){
+            res.json(results[0])
+          }else{
+            res.send("No se pudo encontrar el dato");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 // INSERTAR 
 router.post("/objetos/insertar", ensureToken, (req, res) => {
   try {

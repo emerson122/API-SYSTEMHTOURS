@@ -170,6 +170,7 @@ router.get("/api/", ensureToken, (req, res) => {
   }
 });
 
+
 //Refrescar Token
 router.post("/refresh", (req, res) => {
   try {
@@ -193,6 +194,36 @@ router.post("/refresh", (req, res) => {
     res.send(error);
   }
 });
+
+
+//Devolver Objeto Login
+router.post("/objetos/login", (req, res) => {
+  try {
+    // jwt.verify(req.token, process.env.JWT, (err, data) => {
+    //   if (err) {
+    //     res.sendStatus(403);
+      // } else { 
+        const objobjetos = {
+          OBJETO: 'LOGIN'
+        };
+        const sql = `CALL PRC_OBJETOS( '${objobjetos.OBJETO}','' , '',  6, '?')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if(results.length>0){
+            res.json(results[0])
+          }else{
+            res.send("No se pudo encontrar el dato");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      // } 
+    // });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 
 //funcion para almacenar el token
 function verificarToken(req, res, next) {
