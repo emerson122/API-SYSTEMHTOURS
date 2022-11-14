@@ -50,7 +50,7 @@ router.post("/login", (req, res) => {
 });
 
 
-//recuperar acceso
+//Generar Token para recuperar acceso por correo
 router.post("/recuperarlogin", (req, res) => {
   try {
     const metod = "correo"; //de los resultados que me traiga el procedimiento lo meto en una constante
