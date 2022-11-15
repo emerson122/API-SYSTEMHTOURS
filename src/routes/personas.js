@@ -94,7 +94,7 @@ router.post("/usuarios", ensureToken,(req, res) => {
 });
 
 // traer usuarios
-router.post("/usuarios", ensureToken,(req, res) => {
+router.get("/list_usuarios", ensureToken,(req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
       if (err) {
