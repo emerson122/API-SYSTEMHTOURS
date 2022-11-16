@@ -180,6 +180,29 @@ router.put("/actualizar/:cod", ensureToken, (req, res) => {
   }
 });
 
+//Eliminación Lógica
+router.put("/delete/:cod", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const { cod } = req.params;
+     
+        const sql = `CALL PRC_PERSONAS('','','', '', '','','','',8, ${cod})`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Desactivado Logico ");
+        });
+      }
+    });
+    console.log("Datos Desactivado"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 //ELIMINAR
 router.delete("/eliminar/:cod", ensureToken, (req, res) => {
   try {
