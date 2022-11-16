@@ -100,10 +100,8 @@ router.get("/list_usuarios", ensureToken,(req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        const objuserper = {
-          USUARIO: req.body.USER,
-        };
-        const sql = `Call PRC_PERSONAS('${objuserper.USUARIO}', '', '', '', '', '', '', '', 6, '');`;
+       
+        const sql = `call PRC_PERSONAS('', '', '', '', '', '', '', '', '7', '');`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if (results.length > 0) {
@@ -112,7 +110,7 @@ router.get("/list_usuarios", ensureToken,(req, res) => {
             res.send("No se pudieron Obtener los datos");
           }
         });
-        console.log("Datos Leidos Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+        console.log("Datos Leidos Correctamente"); //confirmación en Consola posteriormente se debe eliminar en produccion
       }
     });
   } catch (error) {
