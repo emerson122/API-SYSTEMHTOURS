@@ -42,7 +42,6 @@ router.get("/periodo", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 //BUSCAR POR ID
 router.get("/periodo/:cod", ensureToken, (req, res) => {
   try {
@@ -67,7 +66,6 @@ router.get("/periodo/:cod", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 // INSERTAR
 router.post("/periodo/insertar", ensureToken, (req, res) => {
   try {
@@ -76,13 +74,13 @@ router.post("/periodo/insertar", ensureToken, (req, res) => {
         res.sendStatus(403);
       } else {
         const objperiodos = {
-          COD_USUARIO: req.body.COD_USUARIO,
+          USR: req.body.USR,
           NOM_PERIODO: req.body.NOM_PERIODO,
           FEC_INI: req.body.FEC_INI,
           FEC_FIN: req.body.FEC_FIN,
           ESTADO: req.body.ESTADO,
         };
-        const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 1, '?')`;
+        const sql = `CALL PRC_PERIODOS('${objperiodos.USR}', '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 1, '?')`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos insertados");
@@ -104,13 +102,13 @@ router.put("/periodo/actualizar/:cod", ensureToken, (req, res) => {
       } else {
         const { cod } = req.params;
         const objperiodos = {
-          COD_USUARIO: req.body.COD_USUARIO,
+          USUARIO: req.body.USUARIO,
           NOM_PERIODO: req.body.NOM_PERIODO,
           FEC_INI: req.body.FEC_INI,
           FEC_FIN: req.body.FEC_FIN,
           ESTADO: req.body.ESTADO,
         };
-        const sql = `CALL PRC_PERIODOS(${objperiodos.COD_USUARIO}, '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 2, ${cod})`;
+        const sql = `CALL PRC_PERIODOS('${objperiodos.USUARIO}', '${objperiodos.NOM_PERIODO}','${objperiodos.FEC_INI} ', '${objperiodos.FEC_FIN}', '${objperiodos.ESTADO}', 2, ${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos Actualizados");

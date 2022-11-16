@@ -14,7 +14,6 @@ app.use(bodyparser.json());
 app.get("/", (req, res) => {
   res.send("<h1> API SystemHtors by TecnoBot </h1>");
 });
-
 //rutas seguridad
 app.use("/seguridad", require("./routes/registro"));
 app.use("/seguridad", require("./routes/login"));
@@ -23,7 +22,7 @@ app.use("/personas", require("./routes/personas"));
 app.use("/roles", require("./routes/roles"));
 app.use("/permisos", require("./routes/permisos"));
 app.use(require("./routes/objeto"));
-app.use(require("./routes/parametro"));
+app.use(require("./routes/parametro")); 
 app.use(require("./routes/usuarios"));
 //rutas contables
 app.use(require("./routes/periodo"));
