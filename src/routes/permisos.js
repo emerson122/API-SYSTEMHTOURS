@@ -50,6 +50,97 @@ router.get(["/sel_rol"],ensureToken, (req, res) => {
   }
 });
 
+
+// SELECCIONAR PERMISOS POR ROL Y OBJETO
+router.post(["/sel_per_obj"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+        const objper ={
+          PV_ROL : req.body.PV_ROL,
+          PV_OBJ : req.body.PV_OBJ
+        }
+    const sql = `CALL SEL_PERMISOS_ROL('${objper.PV_ROL}', '${objper.PV_OBJ}');`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+//SELECCIONAR TODOS LOS PERMISOS DE UN SOLO ROL
+router.post(["/sel_per_rol"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+        const objper ={
+          PV_ROL : req.body.PV_ROL
+        }
+    const sql = `CALL SEL_ALLPERMISOS_ROL('${objper.PV_ROL}');`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+//SELECCIONAR LOS ACCESOS DE UN ROL
+router.post(["/sel_per_acc"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {  
+        const objper ={
+          PV_ROL : req.body.PV_ROL
+        }
+    const sql = `CALL SEL_ACCESS_ROL('${objper.PV_ROL}');`;
+    mysql.query(sql, (error, results) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.send("No se pudo obtener resultados"); 
+      }
+      
+    });
+  }
+});
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+
+
 // INSERTAR
 
 ///////////////////////////////////////////////////////////////////
