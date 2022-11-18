@@ -237,7 +237,31 @@ router.get(["/sel_preg"],ensureToken, (req, res) => {
   }
 });
 
-
+// SELECCIONAR USUARIO PREGUNTAS
+router.post(["/sel_usr_preg"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+        if (err) {
+        res.sendStatus(403);
+        console.log(err);
+        } else {
+        const obj = {USR: req.body.USR} 
+        const sql = `CALL PROC_MS_PREG_SEL_USR('${obj.USR}')`;
+        mysql.query(sql, (error, results) => {
+        if (error) throw error;
+        if (results.length > 0) {
+        res.json(results[0]);
+        } else {
+        res.send("No se pudo obtener resultados"); 
+        }
+      });
+    }
+  });
+      console.log("Datos leidos correctamente");
+      } catch (error) {
+      res.send(error);
+  }
+});
 
 
 
