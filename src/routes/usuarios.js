@@ -195,7 +195,7 @@ router.put('/upd_usr',ensureToken,(req,res)=>{
 });
 
 
-module.exports = router;
+
 
 // PREGUNTAS
 
@@ -253,6 +253,68 @@ router.post(["/sel_usr_preg"],ensureToken, (req, res) => {
   }
 });
 
+//PROC actualizar preguntas respuestas
+router.put('/upd_preg_res',ensureToken,(req,res)=>{
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {
+
+
+        const objusr = {
+          FILA: req.body.FILA,
+          PREGUNTA: req.body.PREGUNTA,
+          RESPUESTA: req.body.RESPUESTA
+        }
+
+      const sql = `CALL PROC_MS_PREG_RES_ACTUALIZA( '${objusr.FILA}',
+                                                    '${objusr.PREGUNTA}' ,
+                                                    '${objusr.RESPUESTA}')`;
+
+       mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos actualizados");
+        });
+      }
+    });
+    console.log("Datos actualizados Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+
+});
+
+// RESPUESTAS
+router.get(["/sel_res"],ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+        if (err) {
+        res.sendStatus(403);
+        console.log(err);
+        } else {
+        const sql = `CALL PROC_MS_RES_SELECCIONAR()`;
+        mysql.query(sql, (error, results) => {
+        if (error) throw error;
+        if (results.length > 0) {
+        res.json(results[0]);
+        } else {
+        res.send("No se pudo obtener resultados"); 
+        }
+      });
+    }
+  });
+      console.log("Datos leidos correctamente");
+      } catch (error) {
+      res.send(error);
+  }
+});
 
 
 
+
+
+
+
+module.exports = router;
