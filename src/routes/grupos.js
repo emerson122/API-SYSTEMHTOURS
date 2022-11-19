@@ -46,7 +46,6 @@ router.get(["/grupos"], ensureToken,(req, res)=>{
   }
 });
 
-
 // INSERTAR 
 router.post("/grupos/insertar", ensureToken, (req, res) => {
   try {
@@ -62,8 +61,12 @@ router.post("/grupos/insertar", ensureToken, (req, res) => {
         const sql = `CALL PRC_GRUPOS('${objgrupo.PV_CLASIFICACION}', '${objgrupo.PV_NUM_GRUPO}', '${objgrupo.PV_NOM_GRUPO}', 1, '')`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
-
-          res.send("Datos insertados");
+          if (results.length>0) {
+            res.send(results[0])
+          }else{
+            res.send('Datos insertados')
+          }
+    
         });
         console.log("Datos insertados Correctamente");
       }
