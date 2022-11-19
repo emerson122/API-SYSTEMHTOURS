@@ -169,25 +169,15 @@ router.put('/upd_usr',ensureToken,(req,res)=>{
           NOM_USR: req.body.NOM_USR,
           EST_USR: req.body.EST_USR,
           COD_ROL: req.body.COD_ROL,
-          FEC_ULT_CONN: req.body.FEC_ULT_CONN,
-          PREG_RES: req.body.PREG_RES,
-          PRIMER_ACC: req.body.PRIMER_ACC,
           CORREO: req.body.CORREO,
-          PREGUNTA: req.body.PREGUNTA,
-          RESPUESTA: req.body.RESPUESTA,
           FILA: req.body.FILA
         }
-    
-      const sql = `CALL PROC_MS_USR_ACTUALIZAR('${objusr.USR}' ,
+
+      const sql = `CALL PROC_MS_USR_ACTUALIZA('${objusr.USR}' ,
                                               '${objusr.NOM_USR}',
                                               '${objusr.EST_USR}',
                                               ${objusr.COD_ROL},
-                                              '${objusr.FEC_ULT_CONN}',
-                                              ${objusr.PREG_RES},
-                                              ${objusr.PRIMER_ACC},
                                               '${objusr.CORREO}',
-                                              '${objusr.PREGUNTA}',
-                                              '${objusr.RESPUESTA}',
                                               ${objusr.FILA}
                                               )`;
 
