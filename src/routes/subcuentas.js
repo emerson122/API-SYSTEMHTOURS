@@ -25,7 +25,7 @@ router.get(["/subcuentas"], ensureToken, (req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        const sql = `CALL PRC_SUBCUENTAS('', '', '', '', 4,'' );`;
+        const sql = `CALL PRC_SUBCUENTAS('', '', '', 4,'' );`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if (results.length > 0) {
@@ -40,7 +40,7 @@ router.get(["/subcuentas"], ensureToken, (req, res) => {
   } catch (error) {
     res.send(error);
   }
-});
+}); 
 
 //BUSCAR POR ID
 router.get("/subcuentas/:cod", ensureToken, (req, res) => {
@@ -75,7 +75,6 @@ router.post("/subcuentas/insertar", ensureToken, (req, res) => {
         res.sendStatus(403);
       } else {
         const objsubcuentas = {
-          CLASIFICACION: req.body.CLASIFICACION,
           NUM_SUBCUENTA: req.body.NUM_SUBCUENTA,
           NOM_SUBCUENTA: req.body.NOM_SUBCUENTA,
           NOM_CUENTA: req.body.NOM_CUENTA,
@@ -83,7 +82,7 @@ router.post("/subcuentas/insertar", ensureToken, (req, res) => {
           CORRELATIVO: req.body.GRUPO,
         };
 
-        const sql = `CALL PRC_SUBCUENTAS(${objsubcuentas.CLASIFICACION}, '${objsubcuentas.NUM_SUBCUENTA}', '${objsubcuentas.NOM_SUBCUENTA}', '${objsubcuentas.NOM_CUENTA}', 1,'' );`;
+        const sql = `CALL PRC_SUBCUENTAS('${objsubcuentas.NUM_SUBCUENTA}', '${objsubcuentas.NOM_SUBCUENTA}', '${objsubcuentas.NOM_CUENTA}', 1,'' );`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if (results.length > 0) {
@@ -109,7 +108,6 @@ router.put("/subcuentas/actualizar/:cod", ensureToken, (req, res) => {
       } else {
         const { cod } = req.params;
         const objsubcuentas = {
-          CLASIFICACION: req.body.CLASIFICACION,
           NUM_SUBCUENTA: req.body.NUM_SUBCUENTA,
           NOM_SUBCUENTA: req.body.NOM_SUBCUENTA,
           NOM_CUENTA: req.body.NOM_CUENTA,
@@ -117,7 +115,7 @@ router.put("/subcuentas/actualizar/:cod", ensureToken, (req, res) => {
           CORRELATIVO: req.body.GRUPO,
         };
 
-        const sql = `CALL PRC_SUBCUENTAS(${objsubcuentas.CLASIFICACION}, '${objsubcuentas.NUM_SUBCUENTA}', '${objsubcuentas.NOM_SUBCUENTA}', '${objsubcuentas.NOM_CUENTA}', 2,${cod})`;
+        const sql = `CALL PRC_SUBCUENTAS( '${objsubcuentas.NUM_SUBCUENTA}', '${objsubcuentas.NOM_SUBCUENTA}', '${objsubcuentas.NOM_CUENTA}', 2,${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos actualizados");
@@ -138,7 +136,7 @@ router.delete("/subcuentas/eliminar/:cod", ensureToken, (req, res) => {
         res.sendStatus(403);
       } else {
         const { cod } = req.params;
-        const sql = `CALL PRC_SUBCUENTAS('', '', '', '', 3, ${cod})`;
+        const sql = `CALL PRC_SUBCUENTAS('', '', '', 3, ${cod})`;
         mysql.query(sql, (error) => {
           if (error) throw error;
           res.send("Datos eliminados");
