@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const { json } = require("body-parser");
 require("dotenv").config();
 //Autor: Scarleth Canales
-
+ 
 //MIDDLEWARE
 //middleware para asegurarse de que el token pertence a htours
 function ensureToken(req, res, next) {

@@ -25,7 +25,7 @@ router.get(["/subcuentas"], ensureToken, (req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        const sql = `CALL PRC_SUBCUENTAS( '', '', '', 4,'' );`;
+        const sql = `CALL PRC_SUBCUENTAS('', '', '', 4,'' );`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if (results.length > 0) {
@@ -40,7 +40,7 @@ router.get(["/subcuentas"], ensureToken, (req, res) => {
   } catch (error) {
     res.send(error);
   }
-});
+}); 
 
 //BUSCAR POR ID
 router.get("/subcuentas/:cod", ensureToken, (req, res) => {
