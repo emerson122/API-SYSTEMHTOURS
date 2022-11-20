@@ -22,7 +22,7 @@ function ensureToken(req, res, next) {
 }
 
 
-// SELECCIONAR
+// SELECCIONAR 
 
 ///////////////////////////////////////////////////////////////////
 
@@ -128,7 +128,7 @@ router.put('/mod_contra_usr',ensureToken,(req,res)=>{
 });
 
 
-// ELIMINAR
+// ELIMINAR DEFINITIVO
 
 ///////////////////////////////////////////////////////////////////
 
@@ -199,11 +199,11 @@ router.put('/upd_usr',ensureToken,(req,res)=>{
 
 
 
-// PREGUNTAS
-
-// SELECCIONAR
+// PREGUNTAS Y RESPUESTAS
 
 ///////////////////////////////////////////////////////////////////
+
+// SELECCIONAR PREGUNTAS
 
 router.get(["/sel_preg"],ensureToken, (req, res) => {
   try {
@@ -255,7 +255,7 @@ router.post(["/sel_usr_preg"],ensureToken, (req, res) => {
   }
 });
 
-//PROC actualizar preguntas respuestas
+// ACTUALIZAR PREGUNTAS Y RESPUESTAS
 router.put('/upd_preg_res',ensureToken,(req,res)=>{
   try {
     jwt.verify(req.token,process.env.JWT, (err, data) => {
@@ -288,7 +288,7 @@ router.put('/upd_preg_res',ensureToken,(req,res)=>{
 
 });
 
-// RESPUESTAS
+// SELECCIONAR RESPUESTAS
 router.get(["/sel_res"],ensureToken, (req, res) => {
   try {
     jwt.verify(req.token,process.env.JWT, (err, data) => {
@@ -314,7 +314,7 @@ router.get(["/sel_res"],ensureToken, (req, res) => {
 });
 
 
-//ACTUALIZAR INGRESOS 
+// ACTUALIZAR ACCESOS
 router.put('/upd_acc',ensureToken,(req,res)=>{
   try {
     jwt.verify(req.token,process.env.JWT, (err, data) => {
@@ -343,7 +343,34 @@ router.put('/upd_acc',ensureToken,(req,res)=>{
 
 });
 
+// ACTUALIZAR FECHAS CONEXION
+router.put('/upd_fec_ult_conn',ensureToken,(req,res)=>{
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {
 
+
+        const objusr = {
+          USR: req.body.USR,
+        }
+
+      const sql = `CALL PROC_MS_FEC_ULT_CONN_ACTUALIZA( '${objusr.USR}')`;
+
+       mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos actualizados");
+        });
+      }
+    });
+    console.log("Datos actualizados Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+
+});
 
 
 
