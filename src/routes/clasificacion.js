@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("../db");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const { json } = require("body-parser");
 require("dotenv").config();
 //Autor: Scarleth Canales
 
@@ -44,6 +45,36 @@ router.get("/clasificacion", ensureToken, (req, res) => {
   }
 });
 
+
+//cuentas por clasificacion
+// INSERTAR
+router.post("/clasificacion/cuentas", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objclasificacion = {
+          NATURALEZA: req.body.NATURALEZA,
+        };
+        const sql = `CALL SEL_CUENTAS('${objclasificacion.NATURALEZA}')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if(results.length>0){
+            res,json(results[0])
+          }else{
+
+            res.send("Datos no encontrados");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 //BUSCAR POR ID
 router.get("/clasificacion/:cod", ensureToken, (req, res) => {
   try {
@@ -77,7 +108,7 @@ router.post("/clasificacion/insertar", ensureToken, (req, res) => {
         res.sendStatus(403);
       } else {
         const objclasificacion = {
-          NATURALEZA: req.body.NATURALEZA,
+          NATURALEZA: req.body.NATURALEZA
         };
         const sql = `CALL PRC_CLASIFICACIONES('${objclasificacion.NATURALEZA}', 1, '?')`;
         mysql.query(sql, (error, results) => {
