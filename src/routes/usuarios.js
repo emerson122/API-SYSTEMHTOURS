@@ -109,12 +109,14 @@ router.put('/mod_contra_usr',ensureToken,(req,res)=>{
     } else {
 
   const objusr = {
+      CONTRA_ACTUAL: req.body.CONTRA_ACTUAL,
       CONTRASEGNA: req.body.CONTRASEGNA,
-      COD: req.body.COD,
+      USR: req.body.USR,
     }
 
-  const sql = `CALL PROC_MS_USR_MODF_CONTRA('${objusr.CONTRASEGNA}' ,
-                                             ${objusr.COD}
+  const sql = `CALL PROC_MS_USR_MODF_CONTRA('${objusr.CONTRA_ACTUAL}',
+                                            '${objusr.CONTRASEGNA}' ,
+                                             '${objusr.USR}'
                                              )`;
   mysql.query(sql,(error,results)=>{
       if(error) throw error;
@@ -312,6 +314,34 @@ router.get(["/sel_res"],ensureToken, (req, res) => {
 });
 
 
+//ACTUALIZAR INGRESOS 
+router.put('/upd_acc',ensureToken,(req,res)=>{
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {
+
+
+        const objusr = {
+          USR: req.body.USR,
+        }
+
+      const sql = `CALL PROC_MS_INGRESOS_ACTUALIZA( '${objusr.USR}')`;
+
+       mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos actualizados");
+        });
+      }
+    });
+    console.log("Datos actualizados Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+
+});
 
 
 
