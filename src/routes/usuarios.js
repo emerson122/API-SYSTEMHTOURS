@@ -178,9 +178,9 @@ router.put('/upd_usr',ensureToken,(req,res)=>{
       const sql = `CALL PROC_MS_USR_ACTUALIZA('${objusr.USR}' ,
                                               '${objusr.NOM_USR}',
                                               '${objusr.EST_USR}',
-                                              ${objusr.COD_ROL},
+                                               ${objusr.COD_ROL},
                                               '${objusr.CORREO}',
-                                              ${objusr.FILA}
+                                               ${objusr.FILA}
                                               )`;
 
        mysql.query(sql, (error, results) => {
