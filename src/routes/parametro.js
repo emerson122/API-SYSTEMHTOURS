@@ -108,13 +108,13 @@ router.post('/parametros/insertar',ensureToken,(req,res)=>{
               } else {
    
     const objparametros = {
-        
+      
         PARAMETRO: req.body.PARAMETRO,
         VALOR: req.body.VALOR,
         USR: req.body.USR,
         FEC_MODIFICACION: req.body.FEC_MODIFICACION
     }
-    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' ,' ${objparametros.USR}', now(), 1, '?')`;
+    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' ,'${objparametros.USR}', now(), 1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
