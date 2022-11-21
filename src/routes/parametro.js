@@ -111,10 +111,10 @@ router.post('/parametros/insertar',ensureToken,(req,res)=>{
         
         PARAMETRO: req.body.PARAMETRO,
         VALOR: req.body.VALOR,
-        COD_USR: req.body.COD_USR,
+        USR: req.body.USR,
         FEC_MODIFICACION: req.body.FEC_MODIFICACION
     }
-    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' , ${objparametros.COD_USR}, now(), 1, '?')`;
+    const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' ,' ${objparametros.USR}', now(), 1, '?')`;
     mysql.query(sql,(error,results)=>{
         if(error) throw error;
         res.send("Datos insertados")
@@ -140,10 +140,10 @@ router.put('/parametros/actualizar/:cod',ensureToken,(req,res)=>{
             const objparametros = {
               PARAMETRO: req.body.PARAMETRO,
               VALOR: req.body.VALOR,
-              COD_USR: req.body.COD_USR,
+              USR: req.body.USR,
               FEC_CREACION: req.body.FEC_CREACION,
             };
-            const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' , ${objparametros.COD_USR}, '${objparametros.FEC_CREACION}', 2, ${cod})`;
+            const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','${objparametros.VALOR}' , '${objparametros.USR}', '${objparametros.FEC_CREACION}', 2, ${cod})`;
             mysql.query(sql, (error, results) => {
               if (error) throw error;
               res.send("Datos Actualizados");
