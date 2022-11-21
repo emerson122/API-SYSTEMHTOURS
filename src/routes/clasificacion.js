@@ -55,19 +55,19 @@ router.post("/clasificacion/cuentas", ensureToken, (req, res) => {
         res.sendStatus(403);
       } else {
         const objclasificacion = {
-          NATURALEZA: req.body.NATURALEZA,
+          NATURALEZA: req.body.NATURALEZA
         };
         const sql = `CALL SEL_CUENTAS('${objclasificacion.NATURALEZA}')`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if(results.length>0){
-            res,json(results[0])
+            res.json(results[0])
           }else{
 
             res.send("Datos no encontrados");
           }
         });
-        console.log("Datos insertados Correctamente");
+        console.log("Datos encontrados Correctamente");
       }
     });
   } catch (error) {

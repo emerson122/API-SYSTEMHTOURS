@@ -78,4 +78,121 @@ router.get('/balance',ensureToken,(req,res)=>{
 }
 });
 
+
+
+/**
+ * Search Data
+ */
+ router.post("/balance/activos_c", ensureToken,(req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objbalance = {
+          COD_PERIODO: req.body.COD_PERIODO,
+        };
+        const sql = `call SEL_DATA_BAL(${objbalance.COD_PERIODO}, '1')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("no se pudieron obtener los datos");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+/**
+ * activos no corrientes
+ */
+ router.post("/balance/activos_n", ensureToken,(req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objbalance = {
+          COD_PERIODO: req.body.COD_PERIODO,
+        };
+        const sql = `call SEL_DATA_BAL(${objbalance.COD_PERIODO}, '2')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("no se pudieron obtener los datos");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+/**
+ * pasivos  corrientes
+ */
+router.post("/balance/pasivos_c", ensureToken,(req, res) => {
+ try {
+   jwt.verify(req.token, process.env.JWT, (err, data) => {
+     if (err) {
+       res.sendStatus(403);
+     } else {
+       const objbalance = {
+         COD_PERIODO: req.body.COD_PERIODO,
+       };
+       const sql = `call SEL_DATA_BAL(${objbalance.COD_PERIODO}, '3')`;
+       mysql.query(sql, (error, results) => {
+         if (error) throw error;
+         if (results.length > 0) {
+           res.json(results[0]);
+         } else {
+           res.send("no se pudieron obtener los datos");
+         }
+       });
+       console.log("Datos insertados Correctamente");
+     }
+   });
+ } catch (error) {
+   res.send(error);
+ }
+});
+/**
+ * pasivos no  corrientes
+ */
+router.post("/balance/pasivos_n", ensureToken,(req, res) => {
+ try {
+   jwt.verify(req.token, process.env.JWT, (err, data) => {
+     if (err) {
+       res.sendStatus(403);
+     } else {
+       const objbalance = {
+         COD_PERIODO: req.body.COD_PERIODO,
+       };
+       const sql = `call SEL_DATA_BAL(${objbalance.COD_PERIODO}, '4')`;
+       mysql.query(sql, (error, results) => {
+         if (error) throw error;
+         if (results.length > 0) {
+           res.json(results[0]);
+         } else {
+           res.send("no se pudieron obtener los datos");
+         }
+       });
+       console.log("Datos insertados Correctamente");
+     }
+   });
+ } catch (error) {
+   res.send(error);
+ }
+});
+
+
 module.exports = router;
