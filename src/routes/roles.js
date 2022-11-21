@@ -159,12 +159,12 @@ router.post('/ins_rol',ensureToken,(req,res)=>{
     } else {
 
   const objusr = {
-      PV_TI_ROL: req.body.PV_TI_ROL,
-      PV_DES_ROL: req.body.PV_DES_ROL,
+      ROL: req.body.ROL,
+      DES_ROL: req.body.DES_ROL
     }
 
-  const sql = `CALL PRC_MS_INSERT_ROLES( '${objusr.PV_TI_ROL}' ,
-                                          '${objusr.PV_DES_ROL}'
+  const sql = `CALL PRC_MS_INSERT_ROLES( '${objusr.ROL}' ,
+                                         '${objusr.DES_ROL}'
                                           )`;
   mysql.query(sql,(error,results)=>{
       if(error) throw error;
