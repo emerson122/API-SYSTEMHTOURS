@@ -73,7 +73,7 @@ router.post(["/sel_per_obj"],ensureToken, (req, res) => {
       }
       
     });
-  }
+  } 
 });
     console.log("Datos leidos correctamente");
   } catch (error) {
@@ -109,6 +109,8 @@ router.post(["/sel_per_rol"],ensureToken, (req, res) => {
     res.send(error);
   }
 });
+
+
 //SELECCIONAR LOS ACCESOS DE UN ROL
 router.post(["/sel_per_acc"],ensureToken, (req, res) => {
   try {

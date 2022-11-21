@@ -45,7 +45,6 @@ router.get(["/cuentas"], ensureToken,(req, res)=>{
   }
 });
 
-
 //BUSCAR POR ID
 router.get("/cuentas/:cod",ensureToken, (req, res) => {
   try {
@@ -98,7 +97,6 @@ router.post("/cuentas/insertar", ensureToken,(req, res) => {
   }
 });
 
-
 // ACTUALIZAR
 
 router.put("/cuentas/actualizar/:cod", ensureToken, (req, res) => {
@@ -110,11 +108,11 @@ router.put("/cuentas/actualizar/:cod", ensureToken, (req, res) => {
         const { cod } = req.params;
         const objcuentas = {
           CLASIFICACION: req.body.CLASIFICACION,
-          NOMBRE: req.body.NOMBRE,
           NUM: req.body.NUM,
+          NOMBRE: req.body.NOMBRE,
         };
 
-        const sql = `call PRC_CUENTAS(${objcuentas.CLASIFICACION}, '${objcuentas.NOMBRE}', '${objcuentas.NUM}', 2, ${cod})`;
+        const sql = `call PRC_CUENTAS(${objcuentas.CLASIFICACION}, '${objcuentas.NUM}', '${objcuentas.NOMBRE}', 2, ${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos actualizados");

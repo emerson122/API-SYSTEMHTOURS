@@ -67,7 +67,7 @@ router.get("/librodiario/:cod", ensureToken, (req, res) => {
   } catch (error) {
     res.send(error);
   }
-});
+}); 
 
 // INSERTAR // FUNCIONAL
 router.post("/librodiario/insertar", ensureToken, (req, res) => {
