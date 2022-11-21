@@ -19,9 +19,8 @@ function ensureToken(req, res, next) {
     res.sendStatus(403); //acceso prohibido
   }
 }
-// SELECCIONAR
+// SELECCIONAR 
 ///////////////////////////////////////////////////////////////////
-
 router.get(["/sel_rol"],ensureToken, (req, res) => {
   try {
     jwt.verify(req.token,process.env.JWT, (err, data) => {
