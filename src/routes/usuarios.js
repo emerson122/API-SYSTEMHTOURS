@@ -373,5 +373,34 @@ router.put('/upd_fec_ult_conn',ensureToken,(req,res)=>{
 });
 
 
+// ACTUALIZAR NOMBRE USUARIO
+router.put('/upd_nom_usr',ensureToken,(req,res)=>{
+  try {
+    jwt.verify(req.token,process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+        console.log(err);
+      } else {
+
+
+        const objusr = {
+          COD: req.body.COD,
+          NOM_USR: req.body.NOM_USR
+        }
+
+      const sql = `CALL PROC_MS_NOM_USR_ACTUALIZA( ${objusr.COD},'${objusr.NOM_USR}')`;
+
+       mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos actualizados");
+        });
+      }
+    });
+    console.log("Datos actualizados Correctamente"); //confirmacion en Consola posteriormente se debe eliminar en produccion
+  } catch (error) {
+    res.send(error);
+  }
+
+});
 
 module.exports = router;
