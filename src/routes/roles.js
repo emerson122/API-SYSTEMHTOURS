@@ -19,7 +19,6 @@ function ensureToken(req, res, next) {
     res.sendStatus(403); //acceso prohibido
   }
 }
-
 // SELECCIONAR
 ///////////////////////////////////////////////////////////////////
 
