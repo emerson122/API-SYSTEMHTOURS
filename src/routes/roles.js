@@ -20,9 +20,7 @@ function ensureToken(req, res, next) {
   }
 }
 
-
 // SELECCIONAR
-
 ///////////////////////////////////////////////////////////////////
 
 router.get(["/sel_rol"],ensureToken, (req, res) => {
