@@ -168,6 +168,7 @@ router.post("/balance/pasivos_c", ensureToken,(req, res) => {
 /**
  * pasivos no  corrientes
  */
+
 router.post("/balance/pasivos_n", ensureToken,(req, res) => {
  try {
    jwt.verify(req.token, process.env.JWT, (err, data) => {
@@ -194,5 +195,33 @@ router.post("/balance/pasivos_n", ensureToken,(req, res) => {
  }
 });
 
+/**
+ * Patrimonio
+ */
+router.post("/balance/patrimonio", ensureToken,(req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objbalance = {
+          COD_PERIODO: req.body.COD_PERIODO,
+        };
+        const sql = `call SEL_DATA_BAL(${objbalance.COD_PERIODO}, '5')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("no se pudieron obtener los datos");
+          }
+        });
+        console.log("Datos insertados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+ });
 
 module.exports = router;
