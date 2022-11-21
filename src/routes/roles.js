@@ -218,16 +218,17 @@ router.put('/upd_rol',ensureToken,(req,res)=>{
         console.log(err);
       } else {
 
-        const { cod } = req.params;
+        ;
         const objusr = {
-          PV_TI_ROL: req.body.PV_TI_ROL,
-          PV_DES_ROL: req.body.PV_DES_ROL,
-          PB_FILA: req.body.PB_FILA
+          ROL: req.body.ROL,
+          DES_ROL: req.body.DES_ROL,
+          FILA: req.body.FILA
         }
 
-      const sql = `CALL PRC_MS_UPD_ROLES( '${cod}' ,
-                                              '${objusr.PV_DES_ROL}',
-                                              ${objusr.FILA}
+      const sql = `CALL PRC_MS_UPD_ROLES(  
+                                          '${objusr.ROL}',
+                                          '${objusr.DES_ROL}',
+                                           ${objusr.FILA}
                                               )`;
 
        mysql.query(sql, (error, results) => {
