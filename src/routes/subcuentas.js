@@ -111,8 +111,7 @@ router.put("/subcuentas/actualizar/:cod", ensureToken, (req, res) => {
           NUM_SUBCUENTA: req.body.NUM_SUBCUENTA,
           NOM_SUBCUENTA: req.body.NOM_SUBCUENTA,
           NOM_CUENTA: req.body.NOM_CUENTA,
-          CUENTAS: req.body.CORRELATIVO,
-          CORRELATIVO: req.body.GRUPO,
+       
         };
 
         const sql = `CALL PRC_SUBCUENTAS( '${objsubcuentas.NUM_SUBCUENTA}', '${objsubcuentas.NOM_SUBCUENTA}', '${objsubcuentas.NOM_CUENTA}', 2,${cod})`;
