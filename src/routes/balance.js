@@ -3,10 +3,7 @@ const mysql = require('../db');
 const router=express.Router();
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
-
 // Autor:Zoila Margarita Licona 
-
-
 function ensureToken(req,res,next) {
     const bearerHeader = req.headers['authorization'];
     console.log(bearerHeader);
@@ -19,7 +16,6 @@ function ensureToken(req,res,next) {
       res.sendStatus(403); //acceso prohibido
   }
  }
-
 // INSERTAR 
 router.post("/balance/insertar", ensureToken,(req, res) => {
   try {
@@ -46,6 +42,8 @@ router.post("/balance/insertar", ensureToken,(req, res) => {
     res.send(error);
   }
 });
+
+
 
 
 
