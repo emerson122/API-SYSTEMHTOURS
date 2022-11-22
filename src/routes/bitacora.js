@@ -96,4 +96,28 @@ router.post("/bitacora/user", ensureToken, (req, res) => {
   }
 });
 
+// SELECCIONAR TODO BITACORA
+router.get(["/sel_bitacora"], ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const sql = `CALL PROC_MS_BITACORA_SELECCIONAR()`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("No se pudo obtener resultados");
+          }
+        });
+      }
+    });
+    console.log("Datos leidos correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 module.exports = router;
