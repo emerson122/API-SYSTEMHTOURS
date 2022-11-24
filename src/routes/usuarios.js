@@ -120,7 +120,11 @@ router.put('/mod_contra_usr',ensureToken,(req,res)=>{
                                              )`;
   mysql.query(sql,(error,results)=>{
       if(error) throw error;
-      res.send("Datos actualizados")
+      if(results.length > 0){
+        res.json(results[0])
+      }else{
+        res.send("Datos actualizados")
+      }
   })
   }
   });
