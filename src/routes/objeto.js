@@ -4,7 +4,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 //Autor Scarleth Canales 
-
 //MIDDLEWARE
 //middleware para asegurarse de que el token pertence a htours
 function ensureToken(req,res,next) {
