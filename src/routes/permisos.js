@@ -154,7 +154,6 @@ router.post('/ins_permiso',ensureToken,(req,res)=>{
       res.sendStatus(403);
       console.log(err);
     } else {
-
   const objusr = {
       PB_COD_ROL: req.body.PB_COD_ROL,
       PB_COD_OBJETO: req.body.PB_COD_OBJETO,
@@ -164,12 +163,12 @@ router.post('/ins_permiso',ensureToken,(req,res)=>{
       PV_PER_CONSULTAR: req.body.PV_PER_CONSULTAR
     }
 
-  const sql = `CALL PRC_INSERT_PERMISOS( '${objusr.PB_COD_ROL}' ,
-                                          '${objusr.PB_COD_OBJETO}',
+  const sql = `CALL PRC_INSERT_PERMISOS( ${objusr.PB_COD_ROL} ,
+                                          ${objusr.PB_COD_OBJETO},
                                           '${objusr.PV_PER_INSERCION}',
                                           '${objusr.PV_PER_ELIMINAR}',
                                           '${objusr.PV_PER_ACTUALIZAR}',
-                                          '${objusr.PV_PER_CONSULTAR}',
+                                          '${objusr.PV_PER_CONSULTAR}'
                                           )`;
   mysql.query(sql,(error,results)=>{
       if(error) throw error;
@@ -229,12 +228,12 @@ router.put('/upd_permiso/:cod',ensureToken,(req,res)=>{
             PV_PER_CONSULTAR: req.body.PV_PER_CONSULTAR
           }
       
-        const sql = `CALL PRC_UPD_PERMISOS( '${cod}' ,
-                                                '${objusr.PB_COD_OBJETO}',
+        const sql = `CALL PRC_UPD_PERMISOS( ${objusr.PB_COD_ROL} ,
+                                                ${objusr.PB_COD_OBJETO},
                                                 '${objusr.PV_PER_INSERCION}',
                                                 '${objusr.PV_PER_ELIMINAR}',
                                                 '${objusr.PV_PER_ACTUALIZAR}',
-                                                '${objusr.PV_PER_CONSULTAR}',
+                                                '${objusr.PV_PER_CONSULTAR}'
                                                 )`;
 
        mysql.query(sql, (error, results) => {
