@@ -17,10 +17,9 @@ function ensureToken(req,res,next) {
       res.sendStatus(403); //acceso prohibido
   }
  }
-
  router.post('/resultado',ensureToken,(req,res)=>{
     try {
-        
+    
          jwt.verify(req.token,process.env.JWT,(err,data)=>{
              if(err){
                  res.sendStatus(403);
