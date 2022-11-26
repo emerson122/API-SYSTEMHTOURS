@@ -42,6 +42,29 @@ router.get("/periodo", ensureToken, (req, res) => {
     res.send(error);
   }
 });
+
+router.get("/incrementable", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const sql = `CALL PRC_PERIODOS('', '', '', '', '', 6, '')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if (results.length > 0) {
+            res.json(results[0]);
+          } else {
+            res.send("No se pudieron Obtener los datos");
+          }
+        });
+      }
+    });
+    console.log("Datos Leidos Correctamente");
+  } catch (error) {
+    res.send(error);
+  }
+});
 //BUSCAR POR ID
 router.get("/periodo/:cod", ensureToken, (req, res) => {
   try {
