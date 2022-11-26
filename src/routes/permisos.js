@@ -24,14 +24,14 @@ function ensureToken(req, res, next) {
 
 ///////////////////////////////////////////////////////////////////
 
-router.get(["/sel_rol"], ensureToken, (req, res) => {
+router.get(["/sel_per"], ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
       if (err) {
         res.sendStatus(403);
         console.log(err);
       } else {
-        const sql = `CALL PRC_MS_SEL_ROLES()`;
+        const sql = `CALL PRC_SEL_PERMISOS()`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           if (results.length > 0) {
