@@ -337,10 +337,7 @@ router.post("/estusr/pass", (req, res) => {
   } catch (error) {
     res.send(error);
   }
-});
-
-
-
+}); 
 //Devolver Objeto registro
 router.post("/objetos/registro", (req, res) => {
   try {
