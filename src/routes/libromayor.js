@@ -96,6 +96,33 @@ router.post("/libromayor/insertar", ensureToken, (req, res) => {
   }
 });
 
+
+
+// MAYORIZACION // FUNCIONAL ?
+router.post("/libromayor/mayorizacion", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objlibromayor = {
+          COD_PERIODO: req.body.COD_PERIODO,
+          NOM_CUENTA: req.body.NOM_CUENTA,
+
+        };
+        const sql = `CALL PRC_LIBROS_MAYORES(${objlibromayor.COD_PERIODO} ,'${objlibromayor.NOM_CUENTA}','','', 1, '?')`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          res.send("Datos Mayorizados");
+        });
+        console.log("Datos Mayorizados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 // ACTUALIZAR // FUNCIONAL
 router.put("/libromayor/actualizar/:cod", ensureToken, (req, res) => {
   try {
