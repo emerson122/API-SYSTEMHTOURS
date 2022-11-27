@@ -26,6 +26,7 @@ app.use(require("./routes/parametro"));
 app.use(require("./routes/usuarios"));
 //rutas contables
 app.use(require("./routes/periodo"));
+app.use(require("./routes/comprobantes"));
 app.use(require("./routes/balance"));
 app.use(require("./routes/resultado"));
 app.use(require("./routes/librodiario"));

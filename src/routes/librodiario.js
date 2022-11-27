@@ -42,7 +42,8 @@ router.get("/librodiario", ensureToken, (req, res) => {
   } catch (error) {
     res.send(error);
   }
-});
+}); 
+
 
 //BUSCAR POR ID//FUNCIONAL
 router.get("/librodiario/:cod", ensureToken, (req, res) => {
