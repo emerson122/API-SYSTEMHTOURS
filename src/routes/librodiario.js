@@ -43,8 +43,6 @@ router.get("/librodiario", ensureToken, (req, res) => {
     res.send(error);
   }
 }); 
-
-
 //BUSCAR POR ID//FUNCIONAL
 router.get("/librodiario/:cod", ensureToken, (req, res) => {
   try {
@@ -69,7 +67,6 @@ router.get("/librodiario/:cod", ensureToken, (req, res) => {
     res.send(error);
   }
 }); 
-
 // INSERTAR // FUNCIONAL
 router.post("/librodiario/insertar", ensureToken, (req, res) => {
   try {
@@ -96,7 +93,6 @@ router.post("/librodiario/insertar", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 // ACTUALIZAR // FUNCIONAL
 router.put("/librodiario/actualizar/:cod", ensureToken, (req, res) => {
   try {
@@ -124,7 +120,6 @@ router.put("/librodiario/actualizar/:cod", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 // ELIMINAR  // FUNCIONAL
 router.delete("/librodiario/eliminar/:cod", ensureToken, (req, res) => {
   try {
