@@ -20,7 +20,6 @@ function ensureToken(req, res, next) {
   }
 }
 
-
 // leer
 router.get(["/usuarios", "/Leer"], (req, res) => {
   try {

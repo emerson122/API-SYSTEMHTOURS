@@ -67,7 +67,7 @@ router.get("/librodiario/:cod", ensureToken, (req, res) => {
     res.send(error);
   }
 }); 
-// INSERTAR // FUNCIONAL
+// INSERTAR // FUNCIONAL Cuentas y subcuentas
 router.post("/librodiario/insertar", ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
@@ -93,6 +93,34 @@ router.post("/librodiario/insertar", ensureToken, (req, res) => {
     res.send(error);
   }
 });
+
+//INSERTAR //  SOLO CUENTAS
+router.post("/librodiario/insertar", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objlibrodiario = {
+          COD_PERIODO: req.body.COD_PERIODO,
+          NOM_CUENTA: req.body.NOM_CUENTA,
+          SAL_DEBE: req.body.SAL_DEBE,
+          SAL_HABER: req.body.SAL_HABER,
+        };
+        const sql = `CALL PRC_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},2,'?')`;
+        mysql.query(sql, (error) => {
+          if (error) throw error;
+          res.send("Los datos se insertaron correctamente");
+        });
+        console.log("Datos insertados correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 // ACTUALIZAR // FUNCIONAL
 router.put("/librodiario/actualizar/:cod", ensureToken, (req, res) => {
   try {
