@@ -95,7 +95,7 @@ router.post("/librodiario/insertar", ensureToken, (req, res) => {
 });
 
 //INSERTAR //  SOLO CUENTAS
-router.post("/librodiario/insertar", ensureToken, (req, res) => {
+router.post("/librodiario/insertar_s_cuentas", ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT, (err, data) => {
       if (err) {
@@ -119,7 +119,6 @@ router.post("/librodiario/insertar", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 
 // ACTUALIZAR // FUNCIONAL
 router.put("/librodiario/actualizar/:cod", ensureToken, (req, res) => {
