@@ -46,3 +46,12 @@ app.listen(app.get("port"), () => {
     `servidor ejecutado en la siguiente direccion http://localhost:${app.get("port")}`
   );
 });
+
+const fec = new Date().toLocaleString('es-HN'-{
+  timeZone: 'America/Tegucigalpa'
+});
+
+console.log(fec);
+
+process.env.TZ = "America/Guatemala";
+console.log(new Date().toString(''));
