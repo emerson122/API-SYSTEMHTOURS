@@ -45,6 +45,32 @@ router.get(["/grupos"], ensureToken,(req, res)=>{
     res.send(error);
   }
 });
+router.post(["/grupos/unidades"], ensureToken,(req, res)=>{
+    try {
+        jwt.verify(req.token, process.env.JWT, (err, data) => {
+          if (err) {
+            res.sendStatus(403);
+          } else {
+            const objgrupo = {
+              NATURALEZA: req.body.NATURALEZA
+            }
+    const sql = `CALL SEL_GRUPOS_UNIDAD('${objgrupo.NATURALEZA}')`;
+    mysql.query(sql,(error,results)=>{
+        if(error) throw error;
+        if(results.length>0){
+            res.json(results[0]);
+        }else{
+            res.send('No se pudo obtener resultados')
+        }
+    });  
+}
+});
+    console.log('Datos leidos correctamente');
+
+} catch (error) {
+    res.send(error);
+  }
+});
 
 // INSERTAR 
 router.post("/grupos/insertar", ensureToken, (req, res) => {

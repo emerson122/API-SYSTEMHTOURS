@@ -75,6 +75,36 @@ router.post("/clasificacion/cuentas", ensureToken, (req, res) => {
   }
 });
 
+
+//cuentas por clasificacion
+// CONSULTAR
+router.post("/clasificacion/cuentas/id", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, process.env.JWT, (err, data) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const objclasificacion = {
+          NATURALEZA: req.body.NATURALEZA
+        };
+        const sql = `CALL SEL_CUENTAS_COD(${objclasificacion.NATURALEZA})`;
+        mysql.query(sql, (error, results) => {
+          if (error) throw error;
+          if(results.length>0){
+            res.json(results[0])
+          }else{
+
+            res.send("Datos no encontrados");
+          }
+        });
+        console.log("Datos encontrados Correctamente");
+      }
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 //BUSCAR POR ID
 router.get("/clasificacion/:cod", ensureToken, (req, res) => {
   try {
