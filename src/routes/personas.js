@@ -118,7 +118,6 @@ router.get("/buscar/list_usuarios", ensureToken,(req, res) => {
   }
 });
 
-
 // INSERTAR
 router.post("/insertar", ensureToken, (req, res) => {
   try {
