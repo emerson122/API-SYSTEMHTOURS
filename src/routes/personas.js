@@ -136,7 +136,7 @@ router.post("/insertar", ensureToken, (req, res) => {
           TELEFONO: req.body.TELEFONO,
           TIP_TELEFONO: req.body.TIP_TELEFONO,
         };
-        const sql = `CALL PRC_PERSONAS('${objpersonas.USUARIO}','${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}',${objpersonas.TELEFONO},'${objpersonas.TIP_TELEFONO}',1, '?')`;
+        const sql = `CALL PRC_PERSONAS('${objpersonas.USUARIO}','${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}','${objpersonas.TELEFONO}','${objpersonas.TIP_TELEFONO}',1, '?')`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos insertados");
@@ -167,7 +167,7 @@ router.put("/actualizar/:cod", ensureToken, (req, res) => {
           TELEFONO: req.body.TELEFONO,
           TIP_TELEFONO: req.body.TIP_TELEFONO,
         };
-        const sql = `CALL PRC_PERSONAS('${objpersonas.USUARIO}','${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}',${objpersonas.TELEFONO},'${objpersonas.TIP_TELEFONO}',2, ${cod})`;
+        const sql = `CALL PRC_PERSONAS('${objpersonas.USUARIO}','${objpersonas.SEX_PERSONA}',${objpersonas.EDA_PERSONAL} , '${objpersonas.TIP_PERSONA}', '${objpersonas.Num_Identidad}','${objpersonas.IND_CIVIL}','${objpersonas.TELEFONO}','${objpersonas.TIP_TELEFONO}',2, ${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
           res.send("Datos Actualizados");
