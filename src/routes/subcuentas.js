@@ -157,9 +157,9 @@ router.post(["/subcuentas/unidades"], ensureToken,(req, res)=>{
         } else {
           const objgrupo = {
             CUENTA: req.body.CUENTA,
-            NATURALEZA: req.body.NATURALEZA
+            NATURALEZA: req.body.NATURALEZA 
           }
-  const sql = `CALL SEL_SUBCUENTAS_UNIDAD('${objgrupo.CUENTA}',${objgrupo.NATURALEZA}')`;
+  const sql = `CALL SEL_SUBCUENTAS_UNIDAD('${objgrupo.CUENTA}','${objgrupo.NATURALEZA}')`;
   mysql.query(sql,(error,results)=>{
       if(error) throw error;
       if(results.length>0){

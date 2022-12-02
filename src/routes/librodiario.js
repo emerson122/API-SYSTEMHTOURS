@@ -138,7 +138,11 @@ router.put("/librodiario/actualizar/:cod", ensureToken, (req, res) => {
         const sql = `CALL UPD_LIBDIARIO(${objlibrodiario.COD_PERIODO},'${objlibrodiario.NOM_CUENTA}','${objlibrodiario.NOM_SUBCUENTA}',${objlibrodiario.SAL_DEBE},${objlibrodiario.SAL_HABER},'?',${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
-          res.send("Datos Actualizados");
+          if (results.length>0) {
+            res.json(results[0]);
+          }else{
+            res.send("Datos Actualizados");
+          }
         });
         console.log("Datos Actualizados Correctamente");
       }
@@ -166,6 +170,63 @@ router.delete("/librodiario/eliminar/:cod", ensureToken, (req, res) => {
   } catch (error) {
     res.send(error);
   }
+});
+
+
+//busqueda avanzada CUENTAS
+router.post(["/libdiario/unidades/cuentas"], ensureToken,(req, res)=>{
+  try {
+      jwt.verify(req.token, process.env.JWT, (err, data) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          const objgrupo = {
+            CUENTA: req.body.CUENTA
+          }
+  const sql = `CALL BUSQUEDAD_LIBDIARIO('%${objgrupo.CUENTA}%','1')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if(results.length>0){
+          res.json(results[0]);
+      }else{
+          res.send('No se pudo obtener resultados')
+      }
+  });  
+}
+});
+  console.log('Datos leidos correctamente');
+
+} catch (error) {
+  res.send(error);
+}
+});
+
+//busqueda avanzada SUBCUENTAS
+router.post(["/libdiario/unidades/subcuentas"], ensureToken,(req, res)=>{
+  try {
+      jwt.verify(req.token, process.env.JWT, (err, data) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          const objgrupo = {
+            CUENTA: req.body.CUENTA
+          }
+  const sql = `CALL BUSQUEDAD_LIBDIARIO('%${objgrupo.CUENTA}%','2')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if(results.length>0){
+          res.json(results[0]);
+      }else{
+          res.send('No se pudo obtener resultados')
+      }
+  });  
+}
+});
+  console.log('Datos leidos correctamente');
+
+} catch (error) {
+  res.send(error);
+}
 });
 
 module.exports = router;
