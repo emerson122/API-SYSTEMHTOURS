@@ -149,4 +149,32 @@ router.delete("/subcuentas/eliminar/:cod", ensureToken, (req, res) => {
 });
 
 
+router.post(["/subcuentas/unidades"], ensureToken,(req, res)=>{
+  try {
+      jwt.verify(req.token, process.env.JWT, (err, data) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          const objgrupo = {
+            CUENTA: req.body.CUENTA,
+            NATURALEZA: req.body.NATURALEZA
+          }
+  const sql = `CALL SEL_SUBCUENTAS_UNIDAD('${objgrupo.CUENTA}',${objgrupo.NATURALEZA}')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if(results.length>0){
+          res.json(results[0]);
+      }else{
+          res.send('No se pudo obtener resultados')
+      }
+  });  
+}
+});
+  console.log('Datos leidos correctamente');
+
+} catch (error) {
+  res.send(error);
+}
+});
+
 module.exports = router;
