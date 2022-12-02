@@ -135,9 +135,13 @@ router.delete("/cuentas/eliminar/:cod", ensureToken, (req, res) => {
       } else {
         const { cod } = req.params;
         const sql = `Call PRC_CUENTAS('?', '?', '?', 3,${cod});`;
-        mysql.query(sql, (error) => {
+        mysql.query(sql, (error,results) => {
           if (error) throw error;
-          res.send("Datos eliminados");
+          if (results.length>0) {
+            res.json(results[0])
+          }else{
+            res.send("Datos eliminados");
+          }
         });
         console.log("Datos eliminados correctamente");
       }
