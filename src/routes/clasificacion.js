@@ -177,7 +177,6 @@ router.put("/clasificacion/actualizar/:cod", ensureToken, (req, res) => {
     res.send(error);
   }
 });
-
 // ELIMINAR
 router.delete("/clasificacion/eliminar/:cod", ensureToken, (req, res) => {
   try {
@@ -189,7 +188,12 @@ router.delete("/clasificacion/eliminar/:cod", ensureToken, (req, res) => {
         const sql = `CALL PRC_CLASIFICACIONES('', 3, ${cod})`;
         mysql.query(sql, (error, results) => {
           if (error) throw error;
-          res.send("Datos Eliminados");
+          if (results.length>0) {
+            res.json(results[0])
+          } else {
+            
+            res.send("Datos Eliminados");
+          }
         });
 
         console.log("Datos Eliminados Correctamente");

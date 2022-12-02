@@ -140,7 +140,12 @@ router.put("/grupos/actualizar/:cod", ensureToken, (req, res) => {
           const sql = `CALL PRC_GRUPOS('', '', '', 3, ${cod})`;
           mysql.query(sql, (error, results) => {
             if (error) throw error;
-            res.send("Datos Eliminados");
+            if(results.length >0){
+            res.json(results[0])
+            }else{
+
+              res.send("Datos Eliminados");
+            }
           });
         }
       });
