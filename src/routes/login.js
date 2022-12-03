@@ -49,15 +49,18 @@ router.post("/login", (req, res) => {
   }
 });
 
-
 //Generar Token para recuperar acceso por correo
 router.post("/recuperarlogin", (req, res) => {
   try {
     const metod = "correo"; //de los resultados que me traiga el procedimiento lo meto en una constante
+    const objresultados = {
+      USER: req.body.user,
+      PARAMETRO:req.body.PARAMETRO
+    }
     jwt.sign(
       { metod: metod },
       process.env.JWT_CORREO,
-      { expiresIn: process.env.JWT_CORREOTIME },(err, token) => {
+      { expiresIn: objresultados.PARAMETRO},(err, token) => {
         res.json({
           token: token,
         });
@@ -134,6 +137,29 @@ router.post('/parametros/cant_preg',(req,res)=>{
   try {
   const objparametros = { 
       PARAMETRO: "ADMIN_PREGUNTAS"
+  }
+  const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','' , '', '', 6, '?')`;
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if (results.length > 0) {
+          res.json(results[0])
+      }else{
+          res.send("No se obtuvieron datos")
+      }
+  })
+  console.log('Datos insertados Correctamente');
+
+} catch (error) {
+  res.send(error)    
+}
+});
+
+
+//Parametro Externo de vigencia de correo
+router.post('/parametros/correo_time',(req,res)=>{
+  try {
+  const objparametros = { 
+      PARAMETRO: "ADMIN_VIG_RECUPERACION"
   }
   const sql = `CALL PRC_MS_PARAMETROS( '${objparametros.PARAMETRO}','' , '', '', 6, '?')`;
   mysql.query(sql,(error,results)=>{
