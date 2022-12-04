@@ -178,4 +178,30 @@ router.post(["/subcuentas/unidades"], ensureToken, (req, res) => {
   }
 });
 
+// leer FUNCIONAL
+router.get(["/catalago/subcuentas"], ensureToken,(req, res)=>{
+  try {
+      jwt.verify(req.token, process.env.JWT, (err, data) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+  const sql = `Call SEL_CATALAGO_SUBCUENTAS();`
+  mysql.query(sql,(error,results)=>{
+      if(error) throw error;
+      if(results.length>0){
+          res.json(results[0]);
+      }else{
+          res.send('No se pudo obtener resultados')
+      }
+  });  
+}
+});
+  console.log('Datos leidos correctamente');
+
+} catch (error) {
+  res.send(error);
+}
+});
+
+
 module.exports = router;
