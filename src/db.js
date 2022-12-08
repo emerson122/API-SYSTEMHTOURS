@@ -1,12 +1,18 @@
 const mysql = require('mysql');
 require('dotenv').config();
 
+// const objData = {
+//   DB_HOST :  process.env.SERVER ||  'localhost',
+//   DB_USER : process.env.USER || '',
+// }
+
 
 const conexion = mysql.createConnection({
     host: process.env.SERVER,
     user: process.env.USER,
     password: process.env.PASS ,
     database: process.env.DB,
+    port: process.env.DBPORT,
     multipleStatements: true,
 });
 
