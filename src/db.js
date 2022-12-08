@@ -8,11 +8,11 @@ require('dotenv').config();
 
 
 const conexion = mysql.createConnection({
-    host: 'containers-us-west-104.railway.app',
-    user: 'root',
-    password: 'Fw6YrGMOw58upyORIUOu' ,
-    database: 'railway',
-    port: '6091',
+    host: process.env.SERVER,
+    user: process.env.USER,
+    password: process.env.PASS ,
+    database: process.env.DB,
+    port: process.env.DBPORT,
     multipleStatements: true,
 });
 
