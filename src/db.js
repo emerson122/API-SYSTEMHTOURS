@@ -1,6 +1,11 @@
 const mysql = require('mysql');
 require('dotenv').config();
 
+// const objData = {
+//   DB_HOST :  process.env.SERVER ||  'localhost',
+//   DB_USER : process.env.USER || '',
+// }
+
 
 const conexion = mysql.createConnection({
     host: process.env.SERVER,

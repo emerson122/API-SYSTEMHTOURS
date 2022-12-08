@@ -4,8 +4,8 @@
     "description": "api para conectarse a la base de datos",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon src"
+        "start": "node src/index.js",
+        "dev": "nodemon src"
     },
     "author": "Tecnobot",
     "license": "ISC",
